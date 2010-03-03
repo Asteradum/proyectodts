@@ -29,8 +29,8 @@ public class DiccionarioServer extends Thread{
   private DataOutputStream dos;
 
   /** Referencia a la tabla de correspondencias del diccionario. */
-  private Hashtable dic;
-
+  private Hashtable  dic;
+///**hola*
   /**
   * Constructor de DiccionarioServer, para atender a un cliente.
   * @param d Tabla de correspondencias de diciconario a utilizar.
