@@ -64,7 +64,7 @@ public boolean entrar(String u, String c){
 /**
 * Envía la primitiva LISTA al servidor, para obtener la tabla de correspondencias del diccionario..
 * @return Un array de String con los contenidos de la tabla de correspondencias del diccionario.
-*/
+
 public String[] lista(){
  try{
    Vector vs = new Vector();
@@ -90,7 +90,7 @@ public String[] lista(){
 * Envía la primitiva INCLUIR al servidor, para añadir una palabra.
 * @param pal Palabra a añadir.
 * @param trad Traducción correspondiente.
-*/
+
 public void incluir(String pal, String trad){
  try{
    dos.writeBytes("incluir "+ pal + " " + trad + "\r\n");
@@ -99,19 +99,19 @@ public void incluir(String pal, String trad){
    System.err.println(ioe);
  }
 }
-
+*/
 /**
 * Envía la primitiva SALIR al servidor y realiza la desconexión.
 */
-public void salir(){
- try{
-   dos.writeBytes("salir\r\n");
-   System.out.println(br.readLine());
-   dos.close();
-   br.close();
-   s.close();
- }catch(IOException ioe){
-   System.err.println(ioe);
- }
-}
+		public void salir(){
+		 try{
+		   dos.writeBytes("salir\r\n");
+		   System.out.println(br.readLine());
+		   dos.close();
+		   br.close();
+		   s.close();
+		 }catch(IOException ioe){
+		   System.err.println(ioe);
+		 }
+		}
 }
