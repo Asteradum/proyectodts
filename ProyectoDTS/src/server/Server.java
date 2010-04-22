@@ -32,7 +32,7 @@ public class Server extends Thread{
   * @param d Tabla de correspondencias de diciconario a utilizar.
   * @param sc Socket que comunica con el cliente conectado.
   */
-  public Server(Hashtable d, Socket sc) {
+  public Server( Hashtable d, Socket sc) {
     try{
       dic = d;
       s = sc;

@@ -145,15 +145,15 @@ public class ClientWindow extends JFrame {
   }
 
   void btnLista_actionPerformed(ActionEvent e) {
-    txtInfo.setText("");
-    String[] as = dc.lista();
+  /*  txtInfo.setText("");
+   // String[] as = dc.lista();
     for(int i=0;i<as.length;i++){
       txtInfo.append(as[i]+"\r\n");
-    }
+    }*/
   }
 
   void btnAnadir_actionPerformed(ActionEvent e) {
-    dc.incluir(txtPalabra.getText(),txtTraduccion.getText());
+  //  dc.incluir(txtPalabra.getText(),txtTraduccion.getText());
   }
 
   void this_windowClosing(WindowEvent e) {
