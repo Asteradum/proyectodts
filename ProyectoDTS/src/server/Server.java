@@ -1,5 +1,3 @@
-//Sonius, este es el servidor de la practica diccionario copiado aqui, no hay nada implementado
-// cuando le pille un poco mas el truco ya lo cambiare como debe :-)
 
 package server;
 
@@ -7,117 +5,134 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+import VehicleDAO.Vehicle;
+
 /**
- * La clase DiccionarioServer contiene la implementación del proceso
- * servidor que se ejecuta como un hilo independiente. Dicha implementación
- * se encuentra en el método run().
+ * 
+ * The Server class has the implementation of the server process
+ * that executes in an independent thread. The implementation is
+ * in the run() method.
  *
  */
 public class Server extends Thread{
 
-  /** Socket por el que se realiza la comunicación. */
-  private Socket s;
+  /** Socket which makes the communication possible. */
+  private Socket socket = null;
 
-  /** Filtro de recogida de datos del socket. */
-  private BufferedReader br;
+  /** Filter that recieves the data from the socket. */
+  private BufferedReader dataReader = null;
 
-  /** Filtro de escritura de datos al socket. */
-  private DataOutputStream dos;
+  /** Filter that writtes the dato to the socket.. */
+  private DataOutputStream dataWritter = null;
 
-  /** Referencia a la tabla de correspondencias del diccionario. */
-  private Hashtable  dic;
-///**hola*
+  /** Reference to the Vehicle Data. */
+  //Cambiar por una clase Vehicle
+  private Vehicle  vehicleData = null;
+
   /**
-  * Constructor de DiccionarioServer, para atender a un cliente.
+  * Server constructor, which serves to the client.
   * @param d Tabla de correspondencias de diciconario a utilizar.
   * @param sc Socket que comunica con el cliente conectado.
   */
-  public Server( Hashtable d, Socket sc) {
+  public Server( Vehicle d, Socket sc) {
     try{
-      dic = d;
-      s = sc;
-      br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-      dos = new DataOutputStream(s.getOutputStream());
+      vehicleData = d;
+      socket = sc;
+      dataReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      dataWritter = new DataOutputStream(socket.getOutputStream());
     }catch(IOException ioe){
       System.err.println(ioe);
     }
   }
 
   /**
-  * Implementación del proceso de comunicación con el cliente.
+  * This process sends information to the client. It has the protocol definition
   */
   public void run(){
     try{
-      String linea,comando,usuario="",clave="";
-      int estado = 0;
-      for (;estado<3;){
-        linea = br.readLine();
-        if (linea==null) return;
-        System.out.println("Recibida desde " + s.getInetAddress().getHostAddress() + " la linea: " + linea);
-        StringTokenizer sTok= new StringTokenizer(linea," ");
-        comando = sTok.nextToken().toUpperCase();
+    	
+      String line;
+      String command;
+      String userID="";
+      String pass="";
+      
+      int state = 0;
+      
+      for (;state<3;){
+        line = dataReader.readLine();
+        if (line==null) return;
+        System.out.println("Recieved line: " + line + " from " + socket.getInetAddress().getHostAddress());
+        StringTokenizer sTok= new StringTokenizer(line," ");
+        command = sTok.nextToken().toUpperCase();
 
-        switch(estado){
+        switch(state){
           case 0:
-            if(comando.equals("USUARIO")){
-              usuario = sTok.nextToken();
-              dos.writeBytes("200 OK Espero clave\r\n");
-              estado = 1;
-            }else if(comando.equals("SALIR")){
-              estado = 3;
+        	if(command.equals("USER")){
+        		try{
+		              userID = sTok.nextToken();
+		              dataWritter.writeBytes("201 OK Welcome" + userID + "\r\n");
+		              state = 1;
+        		}
+	        	catch(NoSuchElementException e){
+	        		dataWritter.writeBytes("401 ERR Missing username parameter\r\n");
+	        	}
+            }else if(command.equals("QUIT")){
+              state = 3;
             }else{
-              dos.writeBytes("500 ERR Comando incorrecto\r\n");
+            	dataWritter.writeBytes("500 ERR Incorrect command\r\n");
             }
+	        	
             break;
 
           case 1:
-            if(comando.equals("CLAVE")){
-              clave = sTok.nextToken();
-              if(usuario.equals("std") && clave.equals("practica")){
-                dos.writeBytes("201 OK Acceso concedido\r\n");
-                estado = 2;
-              }else{
-                dos.writeBytes("400 ERR Acceso denegado. Repita\r\n");
-                estado = 0;
-              }
-            }else if(comando.equals("SALIR")){
-              estado = 3;
+        	
+            if(command.equals("PASS")){
+            	try{
+		              pass = sTok.nextToken();
+		              //Llamar a la clase DAO que se encarga de comprobar los usuarios
+		              if(userID.equals("std") && pass.equals("practica")){
+		                dataWritter.writeBytes("202 OK Welcome to the system\r\n");
+		                state = 2;
+		              }else{
+		                dataWritter.writeBytes("402 ERR Authentication error\r\n");
+		                state = 0;
+		              }
+            	}
+		    	catch(NoSuchElementException e){
+		    		dataWritter.writeBytes("403 ERR Missing password parameter\r\n");
+		    	}
+	            break;
+            }else if(command.equals("QUIT")){
+              state = 3;
             }else{
-              dos.writeBytes("500 ERR Comando incorrecto\r\n");
+              dataWritter.writeBytes("500 ERR Incorrect command\r\n");
             }
-            break;
+		        
 
           case 2:
-            if(comando.equals("LISTA")){
-              Enumeration ky = dic.keys();
-              Enumeration el = dic.elements();
-              for(;ky.hasMoreElements();){
-                dos.writeBytes((String)ky.nextElement() + " " + (String)el.nextElement() + "\r\n");
-              }
-              dos.writeBytes("202 OK Fin de la lista\r\n");
-            }else if(comando.equals("INCLUIR")){
-              dic.put(sTok.nextToken(),sTok.nextToken());
-              dos.writeBytes("203 OK Palabra incluida\r\n");
-            }else if(comando.equals("BORRAR")){
-              String ke=sTok.nextToken();
-              if(dic.containsKey(ke)){
-                dic.remove(ke) ;
-                dos.writeBytes("204 OK Palabra borrada\r\n");
-              }else{
-                dos.writeBytes("401 ERR Palabra no encontrada\r\n");
-              }
-            }else if(comando.equals("SALIR")){
-              estado = 3;
+            if(command.equals("LISTSENSOR")){
+            	dataWritter.writeBytes("112 OK Start of sensor list\r\n");
+            	
+            	//Introducir los datos de obtencion de sensores
+              
+              dataWritter.writeBytes("212 OK End of sensor list\r\n");
+              
+            }else if(command.equals("HISTORYLOG")){
+              
+            }else if(command.equals("BORRAR")){
+              
+            }else if(command.equals("SALIR")){
+              state = 3;
             }else{
-              dos.writeBytes("500 ERR Comando incorrecto\r\n");
+              dataWritter.writeBytes("500 ERR Comando incorrecto\r\n");
             }
             break;
         }
       }
-    dos.writeBytes("204 OK Fin de la sesion\r\n");
-    dos.close();
-    br.close();
-    s.close();
+    dataWritter.writeBytes("204 OK Fin de la sesion\r\n");
+    dataWritter.close();
+    dataReader.close();
+    socket.close();
     }catch(IOException ioe){
       System.err.println(ioe);
     }catch(NoSuchElementException nsee){
