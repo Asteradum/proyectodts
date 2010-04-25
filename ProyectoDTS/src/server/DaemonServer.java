@@ -9,28 +9,28 @@ package server;
 import java.net.*;
 import java.io.*;
 import java.util.*;
+
+import VehicleDAO.Vehicle;
 import data.*;
 
 /**
- * La clase DiccionarioDemonio contiene la implementación del proceso
- * demonio que escucha solicitudes de conexión.
+ * The DaemonServer class contains the implementation of the daemon (process)
+ * that waits for connection requests.
  *
  */
 public class DaemonServer {
 
   /**
-  * Inicializa la tabla de correspondencias del diccionario, realiza
-  * el proceso de espera de solicitudes de conexión y crea
-  * instancias de DiccionarioServer para atenderlas.
-  * @param args Argumentos de línea de comandos.
+   * 
+  * @param args Line-command arguments.
   */
   public static void main(String args[]){
-    Hashtable h = new Hashtable();
+    Vehicle vehicleTable = new Vehicle(null, null, null);
     try{
-      ServerSocket ss = new ServerSocket(DataConnection.PORT);
+      ServerSocket serverSocket = new ServerSocket(DataConnection.PORT);
       for(;;){
-        Server ds = new Server(h,ss.accept());
-        ds.start();
+        Server server = new Server(vehicleTable,serverSocket.accept());
+        server.start();
       }
     }catch(IOException ioe){
       System.err.println(ioe);
