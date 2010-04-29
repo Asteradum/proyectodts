@@ -15,7 +15,7 @@ public class ClientWindow extends JFrame {
   JTextField txtTraduccion = new JTextField();
   JButton btnAnadir = new JButton();
   JButton btnSalir = new JButton();
-  private ClientController dc;
+  private Client dc;
   int estado=-1;
   JTextField txtUsuario = new JTextField();
   JButton btnValidar = new JButton();
@@ -139,7 +139,7 @@ public class ClientWindow extends JFrame {
   }
 
   void btnConectar_actionPerformed(ActionEvent e) {
-    dc = new ClientController("127.0.0.1");
+    dc = new Client("127.0.0.1");
     estado=0;
     actualizarEstado(estado);
   }
