@@ -36,6 +36,9 @@ public class Server extends Thread{
   private VehicleDAO vehicleDAO = new VehicleDAO();
   
   private UserDAO userDAO = new UserDAO();
+  private String sensorID = null;
+  private Sensor sen = null;
+  private String vehicleID = null;
 
   /**
   * Server constructor, which serves to the client.
@@ -45,6 +48,7 @@ public class Server extends Thread{
   public Server( String vehicleCode, Socket sc ) {
     try{
       vehicleDAO.connect();
+      vehicleID = vehicleCode;
       vehicleData = vehicleDAO.getVehicleInformation(vehicleCode);
       vehicleDAO.disconnect();
       socket = sc;
@@ -144,13 +148,12 @@ public class Server extends Thread{
               
             }else if(command.equals("HISTORYLOG")){
             	try{
-		              String sensorID = sTok.nextToken();
+		              sensorID = sTok.nextToken();		                       
 		              
-		              //Añadir la condicion		              
 		              if (vehicleData.HasSensor(sensorID)){
 		            	  dataWriter.writeBytes("113 OK Start of measurement list\r\n");
 		            	  
-		            	  //Añadir el log historico del sensor
+		            	
 		            	List<Sensor> list = vehicleData.getSensors();
 		              	dataWriter.writeBytes(list.size() + "\r\n");
 		              	for(int i=0;i<list.size();i++)
@@ -170,12 +173,19 @@ public class Server extends Thread{
 	              
             }else if(command.equals("ON")){
             	try{
-		              pass = sTok.nextToken();
+		              sensorID = sTok.nextToken();
 		              
-		              //Añadir la condicion		              
-		              if (true/*existe el sensor?*/){
-		            	   if (true/*Esta Activado?*/){
-		            		   //Activarlo
+		              sen = vehicleData.getSensor(sensorID);	              
+		              if (vehicleData.HasSensor(sensorID)){
+		            	   if (!sen.isActivated()){
+		            		   
+		            		   sen.setState("ON");
+		            		   try {
+									vehicleDAO.setSensorState(sensorID, "ON");
+		            		   } catch (SQLException e) {
+									e.printStackTrace();
+								}
+		            		   
 		            		   dataWriter.writeBytes("203 OK Sensor activated\r\n");
 		            	   }
 		            	   else dataWriter.writeBytes("418 ERR Sensor already activated\r\n");
@@ -190,12 +200,19 @@ public class Server extends Thread{
 		    	}
             }else if(command.equals("OFF")){
             	try{
-		              pass = sTok.nextToken();
+		              sensorID = sTok.nextToken();
 		              
-		              //Añadir la condicion		              
-		              if (true/*existe el sensor?*/){
-		            	   if (true/*Esta Activado?*/){
-		            		   //Desactivarlo
+		              sen = vehicleData.getSensor(sensorID);	              
+		              if (vehicleData.HasSensor(sensorID)){
+		            	   if (sen.isActivated()){
+		            		   
+		            		   sen.setState("OFF");
+		            		   try {
+								vehicleDAO.setSensorState(sensorID, "OFF");
+		            		   } catch (SQLException e) {
+								
+								e.printStackTrace();
+							}
 		            		   dataWriter.writeBytes("204 OK Sensor deactivated\r\n");
 		            	   }
 		            	   else dataWriter.writeBytes("419 ERR Sensor already deactivated\r\n");
@@ -210,16 +227,30 @@ public class Server extends Thread{
 		    	}
             }else if(command.equals("GPSON")){
             	
-            	if (true/*Esta Activado?*/){
-         		   //Activarlo
+            	if (!vehicleData.isGPSActivated()){
+            		
+            		vehicleData.setState("ON");
+            		try {
+						vehicleDAO.setGPSState(vehicleID, "ON");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+         		   
          		   dataWriter.writeBytes("205 OK GPS activated\r\n");
             	}
          	   	else dataWriter.writeBytes("419 ERR GPS already activated\r\n");
             	
             }else if(command.equals("GPSOFF")){
             	
-            	if (true/*Esta Activado?*/){
-         		   //Desactivarlo
+            	if (vehicleData.isGPSActivated()){
+            		
+            		vehicleData.setState("OFF");
+            		try {
+						vehicleDAO.setGPSState(vehicleID, "OFF");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+            		
          		   dataWriter.writeBytes("206 OK GPS deactivated\r\n");
             	}
          	   	else dataWriter.writeBytes("420 ERR GPS already deactivated\r\n");
@@ -412,6 +443,8 @@ public class Server extends Thread{
         }
       }
     dataWriter.writeBytes("208 OK Bye\r\n");
+    
+    //Guardar todos los datos
     dataWriter.close();
     dataReader.close();
     socket.close();

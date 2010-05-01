@@ -35,10 +35,6 @@ public class Vehicle {
 	}
 
 
-	public String getState() {
-		return state;
-	}
-
 
 	public void setState(String state) {
 		this.state = state;
@@ -69,10 +65,32 @@ public class Vehicle {
 	{ boolean sen=false;
 		for (int i=0;i<sensors.size();i++)
 		{
-			if (sensors.get(i).equals(name))
+			if (sensors.get(i).getID_sensor().equals(name))
 				sen=true;
 		}
 		return sen;
+	}
+	
+	public Sensor getSensor (String ID){
+		Sensor sen= null;
+		for (int i=0;i<sensors.size();i++)
+		{
+			sen = sensors.get(i);
+			if (sen.getID_sensor().equals(ID))
+				return sen;
+				
+		}
+		return null;
+		
+	}
+	
+	public boolean isGPSActivated(){
+		boolean activated=true;
+		
+		if (state.equals("OFF")) activated = false;
+		
+		return activated;
+		
 	}
 
 }

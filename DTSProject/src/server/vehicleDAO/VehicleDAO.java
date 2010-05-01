@@ -15,7 +15,7 @@ import server.domainClasses.Vehicle;
   
 
  public class VehicleDAO {
-	 Connection con= null;	
+	private Connection con = null;	
 	
 	public void connect() throws SQLException{
 		try{
@@ -31,12 +31,10 @@ import server.domainClasses.Vehicle;
 			
 		Vehicle vehicle=new Vehicle();
 		
-		
 		String query = "SELECT VEHICLE.ID_VEHICLE, VEHICLE.STATE FROM VEHICLE, INFORMATION, SENSOR, LOG where  VEHICLE.ID_VEHICLE='"+vehicleCode+"'" +
 						" and VEHICLE.ID_VEHICLE=INFORMATION.ID_VEHICLE AND SENSOR.ID_SENSOR=INFORMATION.ID_SENSOR AND" +
 						" LOG.CODE=INFORMATION.CODE";
 		Statement stmt = con.createStatement();
-		stmt.executeQuery(query);
 		ResultSet rs = stmt.executeQuery(query);
 		vehicle.setID_vehicle(rs.getString(1));
 		vehicle.setState(rs.getString(2));
@@ -44,7 +42,6 @@ import server.domainClasses.Vehicle;
 			String query2 = "SELECT  SENSOR.ID_SENSOR, SENSOR.DESCRIPTION, SENSOR.STATE, LOG.DATE,LOG.CODE, LOG.HOUR,LOG.COORDINATES,LOG.VALUE FROM LOG,SENSOR, INFORMATION, VEHICLE where  VEHICLE.ID_VEHICLE='"+vehicleCode+"'" +
 			" and VEHICLE.ID_VEHICLE=INFORMATION.ID_VEHICLE AND SENSOR.ID_SENSOR=INFORMATION.ID_SENSOR AND" +
 			" LOG.CODE=INFORMATION.CODE ORDER BY 1 ASC";
-			stmt.executeQuery(query2);
 			ResultSet rs2 = stmt.executeQuery(query2);
 			Sensor sen = null;
 			Log log = null;
@@ -69,33 +66,27 @@ import server.domainClasses.Vehicle;
 		stmt.close();
 		return vehicle;
 	}
-	/**
-	public List<String> getOperaHouse() throws SQLException{
-		List<String> lista=new ArrayList<String>();
-		String query = "select OPERAHOUSE  from ReservationsT";
-		Statement stmt = con.createStatement();
-		stmt.executeQuery(query);
-		ResultSet rs = stmt.executeQuery(query);
-		while(rs.next()){			
-			String nombre = rs.getString("OPERANAME");
-			lista.add(nombre); 
-		}
-		rs.close();
-		stmt.close();
-		return lista;
+	
+	public boolean setSensorState(String ID, String state) throws SQLException{
+		if (state.equals("ON") || state.equals("OFF")){
+			Statement stmt = con.createStatement();
+			String update = "UPDATE SENSOR SET STATE='" + state + "' WHERE ID_SENSOR='" + ID + "'";
+			stmt.executeUpdate(update);
+			stmt.close();
+			return true;
+		}else return false;
 	}
 	
-	public void reserveSeat(String studName, String operaHouse, String operaName) throws SQLException {	
-		
-		String sentencia;
-
-		sentencia = "INSERT INTO ReservationsT VALUES('"+ studName+ "','"+operaHouse+"','"+operaName+"','" +  new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + "')";
-		Statement stmt;
-		stmt = con.createStatement();
-		stmt.executeUpdate(sentencia);
-		stmt.close();		
+	public boolean setGPSState( String ID, String state) throws SQLException{
+		if (state.equals("ON") || state.equals("OFF")){
+			Statement stmt = con.createStatement();
+			String update = "UPDATE VEHICLE SET STATE='" + state + "' WHERE ID_VEHICLE='" + ID + "'";
+			stmt.executeUpdate(update);
+			stmt.close();
+			return true;
+		}else return false;
 	}
-		**/
+
 	public void disconnect()throws SQLException{
 		con.close();
 	}

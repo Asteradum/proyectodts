@@ -43,9 +43,7 @@ public class Sensor {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getState() {
-		return state;
-	}
+
 	public void setState(String state) {
 		this.state = state;
 	}
@@ -68,5 +66,17 @@ public class Sensor {
 	public String convertToStringSensor ()
 	{ String line= description + ": "+ state+ " ";
 		return line;
+	}
+	
+	public boolean isActivated(){
+		boolean activated=true;
+		
+		if (state.equals("OFF")) activated = false;
+		
+		return activated;
+	}
+	
+	public String GetCurrentValue(){
+		return ID_sensor;
 	}
 }

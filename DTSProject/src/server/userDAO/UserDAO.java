@@ -32,33 +32,8 @@ package server.userDAO;
 			stmt.close();
 			return pass;
 		}
-		/**
-		public List<String> getOperaHouse() throws SQLException{
-			List<String> lista=new ArrayList<String>();
-			String query = "select OPERAHOUSE  from ReservationsT";
-			Statement stmt = con.createStatement();
-			stmt.executeQuery(query);
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){			
-				String nombre = rs.getString("OPERANAME");
-				lista.add(nombre); 
-			}
-			rs.close();
-			stmt.close();
-			return lista;
-		}
-		
-		public void reserveSeat(String studName, String operaHouse, String operaName) throws SQLException {	
 			
-			String sentencia;
 
-			sentencia = "INSERT INTO ReservationsT VALUES('"+ studName+ "','"+operaHouse+"','"+operaName+"','" +  new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + "')";
-			Statement stmt;
-			stmt = con.createStatement();
-			stmt.executeUpdate(sentencia);
-			stmt.close();		
-		}
-			**/
 		public void disconnect()throws SQLException{
 			con.close();
 		}
