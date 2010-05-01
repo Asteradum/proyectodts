@@ -259,12 +259,12 @@ public class Server extends Thread{
             	try{
 		              pass = sTok.nextToken();
 		              
-		              //Añadir la condicion		              
-		              if (true/*existe el sensor?*/){
-		            	   if (true/*Esta Activado?*/){
+		              sen = vehicleData.getSensor(sensorID);	              
+		              if (vehicleData.HasSensor(sensorID)){
+		            	  if (sen.isActivated()){
 		            		   
 		            		   dataWriter.writeBytes("114 OK ");
-		            		   dataWriter.writeBytes(null/*Devolver los datos actuales del sensor en una linea (crear un metodo en la clase)*/);
+		            		   dataWriter.writeBytes(sen.GetCurrentValue());
 		            		   dataWriter.writeBytes("\r\n");
 		            	   }
 		            	   else dataWriter.writeBytes("416 ERR Sensor is not active\r\n");
@@ -279,7 +279,7 @@ public class Server extends Thread{
 		    	}
           }else if(command.equals("GET_PIC")){
           	
-          	if (true/*Esta Activado el GPS?*/){
+          	if (vehicleData.isGPSActivated()){
           		dataWriter.writeBytes("207 OK Transmitting ");
           		dataWriter.writeBytes(null/*Mostrar bytes de la foto*/ + " bytes");
           		//Enviar foto
@@ -302,7 +302,7 @@ public class Server extends Thread{
         	 
         	 if(command.equals("GET_LOC")){
              	
-             	if (true/*Esta Activado el GPS?*/){
+             	if (vehicleData.isGPSActivated()){
              		dataWriter.writeBytes("114 OK ");
              		dataWriter.writeBytes(null/*Mostrar posicion actual del vehiculo*/ + " bytes");
              	}
@@ -312,41 +312,54 @@ public class Server extends Thread{
         	 }else if(command.equals("LISTSENSOR")){
             	dataWriter.writeBytes("112 OK Start of sensor list\r\n");
             	
-            	//Introducir los datos de obtencion de sensores
+            	List<String> list = vehicleData.convertToListSensor();
+            	dataWriter.writeBytes(list.size() + "\r\n");
+          	  	for(int i=0;i<list.size();i++)
+          	  		dataWriter.writeBytes(vehicleData.getID_vehicle() + "; " + list.get(i) + "\r\n");
+          	  
               
               dataWriter.writeBytes("212 OK End of sensor list\r\n");
-              state = 2;
               
-             }else if(command.equals("HISTORYLOG")){
+            }else if(command.equals("HISTORYLOG")){
             	try{
-		              pass = sTok.nextToken();
+		              sensorID = sTok.nextToken();		                       
 		              
-		              //Añadir la condicion		              
-		              if (true/*Existe el historico?*/){
+		              if (vehicleData.HasSensor(sensorID)){
 		            	  dataWriter.writeBytes("113 OK Start of measurement list\r\n");
 		            	  
-		            	  //Añadir el log historico del sensor
+		            	
+		            	List<Sensor> list = vehicleData.getSensors();
+		              	dataWriter.writeBytes(list.size() + "\r\n");
+		              	for(int i=0;i<list.size();i++)
+		            	  		dataWriter.writeBytes(vehicleData.getID_vehicle() + "; " + list.get(i).convertLogsToList() + "\r\n");
+		            	  
+		            	  
 		            	  
 		            	  dataWriter.writeBytes("212 OK End of measurement list\r\n");	  
 		              }
 		              else{
 		            	  dataWriter.writeBytes("417 ERR Unknown sensor\r\n");
-		              }
-		              state = 2;
+		              }  		             
             	}
 		    	catch(NoSuchElementException e){
 		    		dataWriter.writeBytes("415 ERR Missing sensor_id parameter\r\n");
-		    		state = 2;
 		    	}
 	              
             }else if(command.equals("ON")){
             	try{
-		              pass = sTok.nextToken();
+		              sensorID = sTok.nextToken();
 		              
-		              //Añadir la condicion		              
-		              if (true/*existe el sensor?*/){
-		            	   if (true/*Esta Activado?*/){
-		            		   //Activarlo
+		              sen = vehicleData.getSensor(sensorID);	              
+		              if (vehicleData.HasSensor(sensorID)){
+		            	   if (!sen.isActivated()){
+		            		   
+		            		   sen.setState("ON");
+		            		   try {
+									vehicleDAO.setSensorState(sensorID, "ON");
+		            		   } catch (SQLException e) {
+									e.printStackTrace();
+								}
+		            		   
 		            		   dataWriter.writeBytes("203 OK Sensor activated\r\n");
 		            	   }
 		            	   else dataWriter.writeBytes("418 ERR Sensor already activated\r\n");
@@ -354,20 +367,26 @@ public class Server extends Thread{
 		              else{
 		            	  dataWriter.writeBytes("417 ERR Unknown sensor\r\n");
 		              }		                       	  
-		              state = 2;
+		             
             	}
 		    	catch(NoSuchElementException e){
 		    		dataWriter.writeBytes("415 ERR Missing sensor_id parameter\r\n");
-		    		state = 2;
 		    	}
             }else if(command.equals("OFF")){
             	try{
-		              pass = sTok.nextToken();
+		              sensorID = sTok.nextToken();
 		              
-		              //Añadir la condicion		              
-		              if (true/*existe el sensor?*/){
-		            	   if (true/*Esta Activado?*/){
-		            		   //Desactivarlo
+		              sen = vehicleData.getSensor(sensorID);	              
+		              if (vehicleData.HasSensor(sensorID)){
+		            	   if (sen.isActivated()){
+		            		   
+		            		   sen.setState("OFF");
+		            		   try {
+								vehicleDAO.setSensorState(sensorID, "OFF");
+		            		   } catch (SQLException e) {
+								
+								e.printStackTrace();
+							}
 		            		   dataWriter.writeBytes("204 OK Sensor deactivated\r\n");
 		            	   }
 		            	   else dataWriter.writeBytes("419 ERR Sensor already deactivated\r\n");
@@ -375,40 +394,51 @@ public class Server extends Thread{
 		              else{
 		            	  dataWriter.writeBytes("417 ERR Unknown sensor\r\n");
 		              }		                       	  
-		              state = 2;
+		             
             	}
 		    	catch(NoSuchElementException e){
 		    		dataWriter.writeBytes("415 ERR Missing sensor_id parameter\r\n");
-		    		state = 2;
 		    	}
             }else if(command.equals("GPSON")){
             	
-            	if (true/*Esta Activado?*/){
-         		   //Activarlo
+            	if (!vehicleData.isGPSActivated()){
+            		
+            		vehicleData.setState("ON");
+            		try {
+						vehicleDAO.setGPSState(vehicleID, "ON");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+         		   
          		   dataWriter.writeBytes("205 OK GPS activated\r\n");
             	}
          	   	else dataWriter.writeBytes("419 ERR GPS already activated\r\n");
-            	state = 2;
             	
             }else if(command.equals("GPSOFF")){
             	
-            	if (true/*Esta Activado?*/){
-         		   //Desactivarlo
+            	if (vehicleData.isGPSActivated()){
+            		
+            		vehicleData.setState("OFF");
+            		try {
+						vehicleDAO.setGPSState(vehicleID, "OFF");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+            		
          		   dataWriter.writeBytes("206 OK GPS deactivated\r\n");
             	}
          	   	else dataWriter.writeBytes("420 ERR GPS already deactivated\r\n");
-            	state = 2;
             	
             }else if(command.equals("GET_CURVALUE")){
             	try{
 		              pass = sTok.nextToken();
 		              
-		              //Añadir la condicion		              
-		              if (true/*existe el sensor?*/){
-		            	   if (true/*Esta Activado?*/){
+		              sen = vehicleData.getSensor(sensorID);	              
+		              if (vehicleData.HasSensor(sensorID)){
+		            	  if (sen.isActivated()){
 		            		   
 		            		   dataWriter.writeBytes("114 OK ");
-		            		   dataWriter.writeBytes(null/*Devolver los datos actuales del sensor en una linea (crear un metodo en la clase)*/);
+		            		   dataWriter.writeBytes(sen.GetCurrentValue());
 		            		   dataWriter.writeBytes("\r\n");
 		            	   }
 		            	   else dataWriter.writeBytes("416 ERR Sensor is not active\r\n");
@@ -416,29 +446,27 @@ public class Server extends Thread{
 		              else{
 		            	  dataWriter.writeBytes("414 ERR Unknown sensor\r\n");
 		              }		                       	  
-		              state = 2;
+		             
             	}
 		    	catch(NoSuchElementException e){
 		    		dataWriter.writeBytes("415 ERR Missing sensor_id parameter\r\n");
-		    		state = 2;
 		    	}
           }else if(command.equals("GET_PIC")){
           	
-          	if (true/*Esta Activado el GPS?*/){
+          	if (vehicleData.isGPSActivated()){
           		dataWriter.writeBytes("207 OK Transmitting ");
           		dataWriter.writeBytes(null/*Mostrar bytes de la foto*/ + " bytes");
           		//Enviar foto
           		dataWriter.writeBytes(null/*Mostrar bytes de la foto*/ + " bytes transmitted");
           	}
        	   	else dataWriter.writeBytes("421 ERR GPS is not active\r\n");
-          	state = 2;
           	
           }else if(command.equals("QUIT")){
               state = 4;
             }else{
               dataWriter.writeBytes("500 ERR Incorrect command\r\n");
             }
-         break; 
+         break;
         	 
         }
       }
