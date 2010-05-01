@@ -44,6 +44,25 @@ public class PruebaServer {
 			System.out.println(dataReader.readLine());
 		System.out.println(dataReader.readLine());
 		
+		dataWriter.writeBytes("OFF S1\r\n");
+		System.out.println(dataReader.readLine());
+		
+		dataWriter.writeBytes("ON S1\r\n");
+		System.out.println(dataReader.readLine());
+		
+		dataWriter.writeBytes("ON S1\r\n");
+		System.out.println(dataReader.readLine());
+		
+		dataWriter.writeBytes("GPSOFF S1\r\n");
+		System.out.println(dataReader.readLine());
+		
+		dataWriter.writeBytes("GPSOFF S1\r\n");
+		System.out.println(dataReader.readLine());
+		
+		dataWriter.writeBytes("GPSON S1\r\n");
+		System.out.println(dataReader.readLine());
+		
+		
 		socket.close();
 	}
 }
