@@ -1,5 +1,6 @@
 package server.domainClasses;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -79,10 +80,7 @@ public class Sensor {
 	}
 	
 	public String GetCurrentValue(){
-		//Cambiar lo datos actuales del sensor? De k modo?
-		Date sysDate = new Date ();
-		String sysDateStr = sysDate.toString ();
-		String data = sysDateStr + ";" + Calendar.HOUR_OF_DAY + "4°41'24.14-74°02'46.86;5";
+		String data =  new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()) + ";" + "4°41'24.14-74°02'46.86;5";
 		return data;
 	}
 }

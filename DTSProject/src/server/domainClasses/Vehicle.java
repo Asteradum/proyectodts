@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vehicle {
-	private String ID_vehicle;
-	private String state;
-	private List <Sensor> sensors=new ArrayList<Sensor>();
+	private String ID_vehicle = null;;
+	private String GPSState = null;;
+	private String location = null;
+	private List <Sensor> sensors = new ArrayList<Sensor>();
 	
 	
 	public Vehicle(String id, String st, List<Sensor> sen)
 	{
 		this.ID_vehicle=id;
-		this.state=st;
+		this.GPSState=st;
 		this.sensors=sen;
+		this.location = "4°41'24.14-74°02'46.86";
 	}
 
 	public void addSensor (Sensor sensor)
@@ -37,13 +39,21 @@ public class Vehicle {
 
 
 	public void setState(String state) {
-		this.state = state;
+		this.GPSState = state;
 	}
 
 
 	
 	public List<Sensor> getSensors() {
 		return sensors;
+	}
+	
+	public void setLocation(String loc) {
+		location = loc;
+	}
+	
+	public String getLocation() {
+		return location;
 	}
 
 
@@ -87,7 +97,7 @@ public class Vehicle {
 	public boolean isGPSActivated(){
 		boolean activated=true;
 		
-		if (state.equals("OFF")) activated = false;
+		if (GPSState.equals("OFF")) activated = false;
 		
 		return activated;
 		
