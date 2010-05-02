@@ -64,6 +64,9 @@ import server.domainClasses.Vehicle;
 		rs.close();
 		
 		stmt.close();
+		
+		vehicle.setLocation("4°41'24.14-74°02'46.86");
+		
 		return vehicle;
 	}
 	

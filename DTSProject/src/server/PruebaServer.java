@@ -16,10 +16,8 @@ public class PruebaServer {
 	private static BufferedReader dataReader = null;
 	
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		// TODO Auto-generated method stub
 		
-		Socket socket = new Socket("127.0.0.1",DataConnection.PORT);
-		
+		Socket socket = new Socket("127.0.0.1",DataConnection.PORT);		
 
 		dataWriter = new DataOutputStream(socket.getOutputStream());
 		dataReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -62,7 +60,30 @@ public class PruebaServer {
 		dataWriter.writeBytes("GPSON S1\r\n");
 		System.out.println(dataReader.readLine());
 		
+		dataWriter.writeBytes("GET_CURVALUE S1\r\n");
+		System.out.println(dataReader.readLine());
 		
+		dataWriter.writeBytes("GET_LOC\r\n");
+		System.out.println(dataReader.readLine());
+		
+		dataWriter.writeBytes("GET_PIC\r\n");
+		System.out.println(dataReader.readLine());
+		String output = dataReader.readLine();
+		while (!output.endsWith("bytes transmitted")){
+			output=dataReader.readLine();
+		}
+		System.out.println(output);
+		
+		dataWriter.writeBytes("GET_LOC\r\n");
+		System.out.println(dataReader.readLine());
+		
+		dataWriter.writeBytes("QUIT\r\n");
+		System.out.println(dataReader.readLine());
+		
+		dataReader.close();
+		dataWriter.close();
 		socket.close();
+		
+		
 	}
 }
