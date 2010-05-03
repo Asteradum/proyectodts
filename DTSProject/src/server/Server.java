@@ -161,7 +161,7 @@ public class Server extends Thread{
 		            	  
 		            	  
 		            	  
-		            	  dataWriter.writeBytes("212 OK End of measurement list\r\n");	  
+		            	  dataWriter.writeBytes("213 OK End of measurement list\r\n");	  
 		              }
 		              else{
 		            	  dataWriter.writeBytes("417 ERR Unknown sensor\r\n");
@@ -496,7 +496,7 @@ public class Server extends Thread{
            		
            }else if(command.equals("GET_LOC")){ 
         	   if (vehicleData.isGPSActivated()){
-            		dataWriter.writeBytes("114 OK ");            		
+            		dataWriter.writeBytes("115 OK ");            		
             		dataWriter.writeBytes(vehicleData.getLocation() + "\r\n");
             	}
          	   	else dataWriter.writeBytes("421 ERR GPS is not active\r\n");

@@ -51,10 +51,10 @@ public class PruebaServer {
 		dataWriter.writeBytes("ON S1\r\n");
 		System.out.println(dataReader.readLine());
 		
-		dataWriter.writeBytes("GPSOFF S1\r\n");
+		dataWriter.writeBytes("GPSOFF\r\n");
 		System.out.println(dataReader.readLine());
 		
-		dataWriter.writeBytes("GPSOFF S1\r\n");
+		dataWriter.writeBytes("GPSOFF\r\n");
 		System.out.println(dataReader.readLine());
 		
 		dataWriter.writeBytes("GPSON S1\r\n");
