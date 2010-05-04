@@ -60,6 +60,7 @@ import server.domainClasses.Vehicle;
 		if (state.equals("ON") || state.equals("OFF")){
 			Statement stmt = con.createStatement();
 			String update = "UPDATE SENSOR SET STATE='" + state + "' WHERE ID_SENSOR='" + ID + "'";
+			//String update = "UPDATE SENSOR SET STATE='ON' WHERE ID_SENSOR='S1'";
 			stmt.executeUpdate(update);
 			stmt.close();
 			return true;

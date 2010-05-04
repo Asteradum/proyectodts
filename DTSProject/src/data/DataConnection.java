@@ -7,5 +7,5 @@ package data;
  */
 public class DataConnection {
   /** Protocol standard port. */
-  public static final int PORT = 2003;
+  public static final int PORT = 2000;
 } 

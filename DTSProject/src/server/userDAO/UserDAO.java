@@ -16,7 +16,6 @@ package server.userDAO;
 			}catch(ClassNotFoundException e){
 				System.out.println("Unable to load Driver Class");
 			}
-			// This url is neccesary to change it if we want to make two server programming just one class?
 			String url = "jdbc:sqlite:db/usuarios.db";
 			con = DriverManager.getConnection(url,"(Login)","(Password)");
 		}
