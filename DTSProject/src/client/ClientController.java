@@ -5,6 +5,8 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+import client.ServerException.ServerException;
+
 import data.*;
 
 /**
@@ -27,59 +29,57 @@ private DataOutputStream dataWriter = null;
 * Constructor de DiccionarioClient que realiza la conexión con la dirección IP suministrada.
 * @param IP Dirección IP del servidor de diccionario al que conectar.
 */
-public ClientController(String IP) {
- try{
-     socket = new Socket(IP,DataConnection.PORT);
-     dataReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-     dataWriter = new DataOutputStream(socket.getOutputStream());
- }catch(IOException ioe){
-   System.err.println(ioe);
- }
-}
+	public ClientController() {
+		//Llamar a la GUI
+	}
 
-	public boolean login(String user, String pass){
+	public boolean connect (String IP){
+		try {
+			 socket = new Socket(IP,DataConnection.PORT);
+		     dataReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		     dataWriter = new DataOutputStream(socket.getOutputStream());
+			return true;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public void login(String user, String pass) throws ServerException{
 	 try{
+		 	String r = null;
 		 	dataWriter.writeBytes("USER " + user + "\r\n");
-			System.out.println(dataReader.readLine()); 
+			r = dataReader.readLine(); 
 			
 			dataWriter.writeBytes("PASS " + pass + "\r\n");		 
-		    String r = dataReader.readLine(); 
-		    System.out.println(r);
+		    r = dataReader.readLine(); 
 		    
-		   if (r.startsWith("202"))
-		     return true;
-		   else
-		     return false;
+			throw new ServerException(r);
 	 }catch(IOException ioe){
 	   System.err.println(ioe);
 	 }
-	 return false;
 	}
 	
-	public List<String> getListSensors(){
+	public List<String> getListSensors() throws ServerException{
 		try {
 			List<String> sensors = new ArrayList<String>();
 			String r = null;
 			
 			dataWriter.writeBytes("LISTSENSOR\r\n");
 			r = dataReader.readLine();
-			System.out.println(r);
 			if (r.startsWith("112")){
 				r = dataReader.readLine();
-				while (!r.startsWith("212"))
-					sensors.add(dataReader.readLine());
-				
-				
-				//Si funciona borrar este for y el mensaje del numero de sensores previo del server.
-				for(int i=0;i<sensors.size();i++)
-					System.out.println(sensors.get(i));
-				
+				while (!r.startsWith("212")){					
+					sensors.add(r);
+					r = dataReader.readLine();
+				}
 				return sensors;
 			}
-			else return null;
+			else throw new ServerException(r);
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -87,150 +87,120 @@ public ClientController(String IP) {
 	}
 	
 	
-	public List<String> getHistoryLog(String sensor){		
+	public List<String> getHistoryLog(String sensor) throws ServerException{		
 		try {
 			List<String> logs = new ArrayList<String>();
 			String r = null;
 			
 			dataWriter.writeBytes("HISTORYLOG " + sensor + "\r\n");
 			r =dataReader.readLine();
-			
-			
 			if (r.startsWith("113")){
 				r = dataReader.readLine();
-				while (!r.startsWith("213"))
-					logs.add(dataReader.readLine());
-							
-				//Si funciona borrar este for y el mensaje del numero de log previo del server.
-				for(int i=0;i<logs.size();i++)
-					System.out.println(logs.get(i));
+				while (!r.startsWith("213")){
+					logs.add(r);
+					r = dataReader.readLine();
+				}			
 				
 				return logs;
 			}
-			else return null;
+			else throw new ServerException(r);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 	
-	//Todos los metodos de ON/OFF, devolver en vez de un booleano, 
-	//si ha sido correcto/no correcto/ya estaba en ese estado
-	public boolean setSensorOFF (String sensor){
+	public void setSensorOFF (String sensor) throws ServerException{
 		
 		try {
 			dataWriter.writeBytes("OFF " + sensor + "\r\n");
 			String r = dataReader.readLine();
-			System.out.println(r);
-			
-			if (r.startsWith("204"))
-				return true;
-			else return false;
+
+			throw new ServerException(r);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
 	}
 	
-	public boolean setSensorON (String sensor){
+	public void setSensorON (String sensor) throws ServerException{
 		
 		try {
 			dataWriter.writeBytes("ON " + sensor + "\r\n");
 			String r = dataReader.readLine();
-			System.out.println(r);
 			
-			if (r.startsWith("203"))
-				return true;
-			else return false;
+			throw new ServerException(r);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
 	}
 	
-	public boolean setGPSOFF (){
+	public void setGPSOFF () throws ServerException{
 		try {
 			dataWriter.writeBytes("GPSOFF\r\n");
 			String r = dataReader.readLine();
-			System.out.println(r);
 			
-			if (r.startsWith("206"))
-				return true;
-			else return false;
+			throw new ServerException(r);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
 	}
 	
-	public boolean setGPSON (){
+	public void setGPSON () throws ServerException{
 		try {
 			dataWriter.writeBytes("GPSON\r\n");
 			String r = dataReader.readLine();
-			System.out.println(r);
 			
-			if (r.startsWith("205"))
-				return true;
-			else return false;
+			throw new ServerException(r);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
 	}
 	
-	public String getCurrentValue(String sensor){
+	public String getCurrentValue(String sensor) throws ServerException{
 		StringTokenizer sTok= null;
 		String r = null;
 		try {
 			dataWriter.writeBytes("GET_CURVALUE " + sensor + "\r\n");
 			r = dataReader.readLine();
-			System.out.println(r);
 			if (r.startsWith("114")){
 				sTok= new StringTokenizer(r," ");
 				sTok.nextToken();sTok.nextToken();
-				r = sTok.nextToken(); 
+				r = sTok.nextToken();
+				r = r + " " + sTok.nextToken();
 				return r;
 			}
-			else return "Error";
+			else throw new ServerException(r);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "Error";
+		return null;
 	}
 	
-	public String getLocation(){
+	public String getLocation() throws ServerException{
 		
 		StringTokenizer sTok= null;
 		String r = null;
 		try {
 			dataWriter.writeBytes("GET_LOC\r\n");
 			r = dataReader.readLine();
-			System.out.println(r);
 			if (r.startsWith("115")){
 				sTok= new StringTokenizer(r," ");
 				sTok.nextToken();sTok.nextToken();
 				r = sTok.nextToken(); 
 				return r;
 			}
-			else return r;
+			else throw new ServerException(r);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "Error";
+		return null;
 	}
 	
 	
 	//Tiene que devovler la ruta donde ha dejado guardada la foto
 	//En un futuro peude que se cambie por un dato de devolucion tipo Image
 	//¿Utilizar una Excepcion nueva?
-	public String getPicture(){
+	public String getPicture() throws ServerException{
 		String r = null;
 		try {
 			dataWriter.writeBytes("GET_PIC\r\n");
@@ -246,20 +216,19 @@ public ClientController(String IP) {
 				System.out.println(output);
 				return photoData;
 			}
-			else return r;
+			else throw new ServerException(r);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return r;
+		return null;
 		
 	}
 
 
-	public void salir(){
+	public void quit(){
 		 try{
 		   dataWriter.writeBytes("QUIT\r\n");
-		   System.out.println(dataReader.readLine());
+		   dataReader.readLine();
 		   dataWriter.close();
 		   dataReader.close();
 		   socket.close();
