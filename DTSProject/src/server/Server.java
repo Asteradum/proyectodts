@@ -39,6 +39,12 @@ public class Server extends Thread{
   private String sensorID = null;
   private Sensor sen = null;
   private String vehicleID = null;
+  private String userID = null;
+  private String pass = null;
+  
+
+
+
 
   /**
   * Server constructor, which serves to the client.
@@ -69,8 +75,7 @@ public class Server extends Thread{
     try{	
       String line;
       String command;
-      String userID="";
-      String pass="";
+      
       
       int state = 0;
       
@@ -178,11 +183,11 @@ public class Server extends Thread{
 		            	   if (!sen.isActivated()){
 		            		   
 		            		   sen.setState("ON");
-		            		   try {
+		            		   /*try {
 									vehicleDAO.setSensorState(sensorID, "ON");
 		            		   } catch (SQLException e) {
 									e.printStackTrace();
-								}
+								}*/
 		            		   
 		            		   dataWriter.writeBytes("203 OK Sensor activated\r\n");
 		            	   }
@@ -205,11 +210,11 @@ public class Server extends Thread{
 		            	   if (sen.isActivated()){
 		            		   
 		            		   sen.setState("OFF");
-		            		   try {
+		            		   /*try {
 		            			   vehicleDAO.setSensorState(sensorID, "OFF");
 		            		    } catch (SQLException e) {
 								   	e.printStackTrace();
-								}
+								}*/
 		            		   dataWriter.writeBytes("204 OK Sensor deactivated\r\n");
 		            	   }
 		            	   else dataWriter.writeBytes("419 ERR Sensor already deactivated\r\n");
@@ -483,14 +488,18 @@ public class Server extends Thread{
         }
       }
     dataWriter.writeBytes("208 OK Bye\r\n");
-    dataWriter.close();
-    dataReader.close();
-    socket.close();
+    closeServer();
     }catch(IOException ioe){
       System.err.println(ioe);
     }catch(NoSuchElementException nsee){
       System.err.println(nsee);
     }
+  }
+  
+  public void closeServer() throws IOException{
+	  dataWriter.close();
+	  dataReader.close();
+	  socket.close();
   }
   
   private int sendBytes(FileInputStream fis) throws Exception {
@@ -505,6 +514,13 @@ public class Server extends Thread{
 	    	numBytes+=bytes;
 	    }
 		return numBytes;
-	  }
+  }
   
+  public String getUserID() {
+		return userID;
+  }
+		
+  public String getPass() {
+		return pass;
+  }
 }
