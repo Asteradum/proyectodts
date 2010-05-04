@@ -49,7 +49,8 @@ public class Server extends Thread{
     try{
       vehicleDAO.connect();
       vehicleID = vehicleCode;
-      vehicleData = vehicleDAO.getVehicleInformation(vehicleCode);
+      vehicleData = vehicleDAO.getVehicleInformation();
+      vehicleData.setID_vehicle(vehicleID);
       vehicleDAO.disconnect();
       socket = sc;
       dataReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -124,7 +125,8 @@ public class Server extends Thread{
 		    		dataWriter.writeBytes("403 ERR Missing password parameter\r\n");
 		    		state = 0;
 		    	} catch (SQLException e) {
-					// TODO Auto-generated catch block
+		    		dataWriter.writeBytes("402 ERR Authentication error\r\n");
+	                state = 0;
 					e.printStackTrace();
 				}
             }else if(command.equals("QUIT")){
@@ -139,9 +141,8 @@ public class Server extends Thread{
             	dataWriter.writeBytes("112 OK Start of sensor list\r\n");
             	
             	List<String> list = vehicleData.convertToListSensor();
-            	dataWriter.writeBytes(list.size() + "\r\n");
           	  	for(int i=0;i<list.size();i++)
-          	  		dataWriter.writeBytes(vehicleData.getID_vehicle() + "; " + list.get(i) + "\r\n");
+          	  		dataWriter.writeBytes(list.get(i) + "\r\n");
           	  
               
               dataWriter.writeBytes("212 OK End of sensor list\r\n");
@@ -154,12 +155,9 @@ public class Server extends Thread{
 		            	  dataWriter.writeBytes("113 OK Start of measurement list\r\n");
 		            	  
 		            	
-		            	List<Sensor> list = vehicleData.getSensors();
-		              	dataWriter.writeBytes(list.size() + "\r\n");
-		              	for(int i=0;i<list.size();i++)
-		            	  		dataWriter.writeBytes(vehicleData.getID_vehicle() + "; " + list.get(i).convertLogsToList() + "\r\n");
-		            	  
-		            	  
+		            	List<String> list = vehicleData.getSensor(sensorID).convertLogsToList();
+		              	for(int i=0;i<list.size();i++)		              	
+		            	  		dataWriter.writeBytes(list.get(i) + "\r\n");
 		            	  
 		            	  dataWriter.writeBytes("213 OK End of measurement list\r\n");	  
 		              }
@@ -229,11 +227,6 @@ public class Server extends Thread{
             	if (!vehicleData.isGPSActivated()){
             		
             		vehicleData.setState("ON");
-            		/*try {
-						vehicleDAO.setGPSState(vehicleID, "ON");
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}*/
          		   
          		   dataWriter.writeBytes("205 OK GPS activated\r\n");
             	}
@@ -243,12 +236,7 @@ public class Server extends Thread{
             	
             	if (vehicleData.isGPSActivated()){
             		
-            		/*vehicleData.setState("OFF");
-            		try {
-						vehicleDAO.setGPSState(vehicleID, "OFF");
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}*/
+            		vehicleData.setState("OFF");
             		
          		   dataWriter.writeBytes("206 OK GPS deactivated\r\n");
             	}
@@ -279,7 +267,6 @@ public class Server extends Thread{
           }else if(command.equals("GET_PIC")){
           	
           	if (vehicleData.isGPSActivated()){
-          		//Hay que hacer dinamico el nombre del fichero?
           		String fileName = "files/Highway.jpg" ;
           		FileInputStream fis = null;
           	             	    
@@ -303,7 +290,7 @@ public class Server extends Thread{
        	   	else dataWriter.writeBytes("421 ERR GPS is not active\r\n");
           	
           }else if(command.equals("GET_LOC")){ 
-        	  dataWriter.writeBytes("501 ERR This command is only allowed after using GET_PIC command\r\n");
+        	  dataWriter.writeBytes("501 ERR This command is only allowed after getting a picture\r\n");
           }else if(command.equals("QUIT")){
               state = 4;
             }else{
@@ -320,10 +307,9 @@ public class Server extends Thread{
         	 if(command.equals("LISTSENSOR")){
              	dataWriter.writeBytes("112 OK Start of sensor list\r\n");
              	
-             	List<String> list = vehicleData.convertToListSensor();
-             	dataWriter.writeBytes(list.size() + "\r\n");
+             	List<String> list = vehicleData.convertToListSensor();             	
            	  	for(int i=0;i<list.size();i++)
-           	  		dataWriter.writeBytes(vehicleData.getID_vehicle() + "; " + list.get(i) + "\r\n");
+           	  		dataWriter.writeBytes(list.get(i) + "\r\n");
            	  
                
                 dataWriter.writeBytes("212 OK End of sensor list\r\n");
@@ -334,15 +320,11 @@ public class Server extends Thread{
  		              sensorID = sTok.nextToken();		                       
  		              
  		              if (vehicleData.HasSensor(sensorID)){
- 		            	  dataWriter.writeBytes("113 OK Start of measurement list\r\n");
- 		            	  
+ 		            	  dataWriter.writeBytes("113 OK Start of measurement list\r\n"); 		            	  
  		            	
- 		            	List<Sensor> list = vehicleData.getSensors();
- 		              	dataWriter.writeBytes(list.size() + "\r\n");
- 		              	for(int i=0;i<list.size();i++)
- 		            	  		dataWriter.writeBytes(vehicleData.getID_vehicle() + "; " + list.get(i).convertLogsToList() + "\r\n");
- 		            	  
- 		            	  
+ 		            	 List<String> list = vehicleData.getSensor(sensorID).convertLogsToList();
+ 		              	 for(int i=0;i<list.size();i++)		              	
+ 		            	  		dataWriter.writeBytes(list.get(i) + "\r\n");
  		            	  
  		            	  dataWriter.writeBytes("212 OK End of measurement list\r\n");	  
  		              }
@@ -417,11 +399,6 @@ public class Server extends Thread{
              	if (!vehicleData.isGPSActivated()){
              		
              		vehicleData.setState("ON");
-             		/*try {
- 						vehicleDAO.setGPSState(vehicleID, "ON");
- 					} catch (SQLException e) {
- 						e.printStackTrace();
- 					}*/
           		   
           		   dataWriter.writeBytes("205 OK GPS activated\r\n");
              	}
@@ -432,12 +409,7 @@ public class Server extends Thread{
              	
              	if (vehicleData.isGPSActivated()){
              		
-             		/*vehicleData.setState("OFF");
-             		try {
- 						vehicleDAO.setGPSState(vehicleID, "OFF");
- 					} catch (SQLException e) {
- 						e.printStackTrace();
- 					}*/
+             		vehicleData.setState("OFF");
              		
           		   dataWriter.writeBytes("206 OK GPS deactivated\r\n");
              	}
@@ -511,7 +483,6 @@ public class Server extends Thread{
         }
       }
     dataWriter.writeBytes("208 OK Bye\r\n");
-    
     dataWriter.close();
     dataReader.close();
     socket.close();

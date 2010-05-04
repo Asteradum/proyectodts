@@ -27,45 +27,31 @@ import server.domainClasses.Vehicle;
 		con = DriverManager.getConnection(url,"(Login)","(Password)");
 	}
 	
-	public Vehicle getVehicleInformation(String vehicleCode) throws SQLException{
+	public Vehicle getVehicleInformation() throws SQLException{
 			
 		Vehicle vehicle=new Vehicle();
 		
-		String query = "SELECT VEHICLE.ID_VEHICLE, VEHICLE.STATE FROM VEHICLE, INFORMATION, SENSOR, LOG where  VEHICLE.ID_VEHICLE='"+vehicleCode+"'" +
-						" and VEHICLE.ID_VEHICLE=INFORMATION.ID_VEHICLE AND SENSOR.ID_SENSOR=INFORMATION.ID_SENSOR AND" +
-						" LOG.CODE=INFORMATION.CODE";
+		String query = "SELECT  SENSOR.ID_SENSOR, SENSOR.DESCRIPTION, SENSOR.STATE, LOG.DATE,LOG.CODE, LOG.HOUR,LOG.COORDINATES,LOG.VALUE FROM LOG,SENSOR where " +
+		"LOG.ID_SENSOR=SENSOR.ID_SENSOR ORDER BY 1 ASC";
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery(query);
-		vehicle.setID_vehicle(rs.getString(1));
-		vehicle.setState(rs.getString(2));
-		
-			String query2 = "SELECT  SENSOR.ID_SENSOR, SENSOR.DESCRIPTION, SENSOR.STATE, LOG.DATE,LOG.CODE, LOG.HOUR,LOG.COORDINATES,LOG.VALUE FROM LOG,SENSOR, INFORMATION, VEHICLE where  VEHICLE.ID_VEHICLE='"+vehicleCode+"'" +
-			" and VEHICLE.ID_VEHICLE=INFORMATION.ID_VEHICLE AND SENSOR.ID_SENSOR=INFORMATION.ID_SENSOR AND" +
-			" LOG.CODE=INFORMATION.CODE ORDER BY 1 ASC";
-			ResultSet rs2 = stmt.executeQuery(query2);
-			Sensor sen = null;
-			Log log = null;
-			while (rs2.next()){
-				if ((sen != null) && (sen.getID_sensor().equals(rs2.getString(1)))){
-					    log=new Log (rs2.getString(5), rs2.getString (4),rs2.getString (6),rs2.getString(7),rs2.getString(8));
-						sen.addLog(log);
-				}
-				else {
-					if (sen != null)
-						vehicle.addSensor(sen);
-					sen=new Sensor (rs2.getString(1),rs2.getString(2),rs2.getString(3));
-					log=new Log (rs2.getString(5), rs2.getString (4),rs2.getString (6),rs2.getString(7),rs2.getString(8));
-					sen.addLog(log);}
+		Sensor sen = null;
+		Log log = null;
+		while (rs.next()){
+			if ((sen != null) && (sen.getID_sensor().equals(rs.getString(1)))){
+				    log=new Log (rs.getString(5), rs.getString (4),rs.getString (6),rs.getString(7),rs.getString(8));
+					sen.addLog(log);
 			}
-			vehicle.addSensor(sen);
-			rs2.close();
-		
-		
+			else {
+				if (sen != null)
+					vehicle.addSensor(sen);
+				sen=new Sensor (rs.getString(1),rs.getString(2),rs.getString(3));
+				log=new Log (rs.getString(5), rs.getString (4),rs.getString (6),rs.getString(7),rs.getString(8));
+				sen.addLog(log);}
+		}
+		vehicle.addSensor(sen);
 		rs.close();
-		
 		stmt.close();
-		
-		vehicle.setLocation("4°41'24.14-74°02'46.86");
 		
 		return vehicle;
 	}
@@ -80,16 +66,6 @@ import server.domainClasses.Vehicle;
 		}else return false;
 	}
 	
-	public boolean setGPSState( String ID, String state) throws SQLException{
-		if (state.equals("ON") || state.equals("OFF")){
-			Statement stmt = con.createStatement();
-			String update = "UPDATE VEHICLE SET STATE='" + state + "' WHERE ID_VEHICLE='" + ID + "'";
-			stmt.executeUpdate(update);
-			stmt.close();
-			return true;
-		}else return false;
-	}
-
 	public void disconnect()throws SQLException{
 		con.close();
 	}

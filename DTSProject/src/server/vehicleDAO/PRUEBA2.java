@@ -16,7 +16,7 @@ public class PRUEBA2 {
 		DAO=new VehicleDAO();
 	  try {
 		DAO.connect();
-		ve=DAO.getVehicleInformation("V1");
+		ve=DAO.getVehicleInformation();
 		for (int i=0;i<ve.getSensors().size();i++)
 			System.out.println(ve.getSensors().get(i).getDescription());
 		if (ve.HasSensor("Humedad"))

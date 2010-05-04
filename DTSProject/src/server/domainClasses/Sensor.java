@@ -67,7 +67,7 @@ public class Sensor {
 	}
 	
 	public String convertToStringSensor ()
-	{ String line= description + ": "+ state+ " ";
+	{ String line=ID_sensor + ": "+ description + ": "+ state+ " ";
 		return line;
 	}
 	
