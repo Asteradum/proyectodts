@@ -178,11 +178,11 @@ public class Server extends Thread{
 		            	   if (!sen.isActivated()){
 		            		   
 		            		   sen.setState("ON");
-		            		   /*try {
+		            		   try {
 									vehicleDAO.setSensorState(sensorID, "ON");
 		            		   } catch (SQLException e) {
 									e.printStackTrace();
-								}*/
+								}
 		            		   
 		            		   dataWriter.writeBytes("203 OK Sensor activated\r\n");
 		            	   }
@@ -205,11 +205,11 @@ public class Server extends Thread{
 		            	   if (sen.isActivated()){
 		            		   
 		            		   sen.setState("OFF");
-		            		   /*try {
+		            		   try {
 		            			   vehicleDAO.setSensorState(sensorID, "OFF");
 		            		    } catch (SQLException e) {
 								   	e.printStackTrace();
-								}*/
+								}
 		            		   dataWriter.writeBytes("204 OK Sensor deactivated\r\n");
 		            	   }
 		            	   else dataWriter.writeBytes("419 ERR Sensor already deactivated\r\n");
