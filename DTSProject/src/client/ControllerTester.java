@@ -100,7 +100,7 @@ public class ControllerTester {
 		}
 		
 		try {
-			System.out.println(client.getPicture());
+			client.getPicture();
 		} catch (ServerException e) {
 			System.out.println(e.getMessage());
 		}
