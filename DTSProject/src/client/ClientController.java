@@ -196,31 +196,29 @@ private DataOutputStream dataWriter = null;
 		return null;
 	}
 	
-	
-	//Tiene que devovler la ruta donde ha dejado guardada la foto
-	//En un futuro peude que se cambie por un dato de devolucion tipo Image
-	//¿Utilizar una Excepcion nueva?
-	public String getPicture() throws ServerException{
+
+	public void getPicture() throws ServerException{
 		String r = null;
+		
 		try {
+			File fileName = new File("recievedData\\Photo.jpg") ;
+			FileOutputStream fos = new FileOutputStream(fileName);			
 			dataWriter.writeBytes("GET_PIC\r\n");
 			r = dataReader.readLine();
 			System.out.println(r);
 			if (r.startsWith("207")){
-				String photoData = null;
-				String output = dataReader.readLine();
-				while (!output.endsWith("bytes transmitted")){
-					photoData = output;
-					output = dataReader.readLine();
-				}
-				System.out.println(output);
-				return photoData;
+				int lenght = Integer.parseInt(dataReader.readLine());
+				byte[] buffer = new byte[lenght];
+		    	socket.getInputStream().read(buffer, 0, lenght);
+				fos.write(buffer);
+				r = dataReader.readLine();
+				fos.close();
+				throw new ServerException(r);
 			}
 			else throw new ServerException(r);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
 		
 	}
 

@@ -183,11 +183,13 @@ public class Server extends Thread{
 		            	   if (!sen.isActivated()){
 		            		   
 		            		   sen.setState("ON");
-		            		   /*try {
-									vehicleDAO.setSensorState(sensorID, "ON");
+		            		   try {
+		            		    	vehicleDAO.connect();
+		            			  	vehicleDAO.setSensorState(sensorID, "ON");
+		            			   	vehicleDAO.disconnect();									
 		            		   } catch (SQLException e) {
 									e.printStackTrace();
-								}*/
+								}
 		            		   
 		            		   dataWriter.writeBytes("203 OK Sensor activated\r\n");
 		            	   }
@@ -210,11 +212,13 @@ public class Server extends Thread{
 		            	   if (sen.isActivated()){
 		            		   
 		            		   sen.setState("OFF");
-		            		   /*try {
+		            		   try {
+		            			   vehicleDAO.connect();
 		            			   vehicleDAO.setSensorState(sensorID, "OFF");
+		            			   vehicleDAO.disconnect();
 		            		    } catch (SQLException e) {
 								   	e.printStackTrace();
-								}+/
+								}
 		            		   dataWriter.writeBytes("204 OK Sensor deactivated\r\n");
 		            	   }
 		            	   else dataWriter.writeBytes("419 ERR Sensor already deactivated\r\n");
@@ -272,16 +276,17 @@ public class Server extends Thread{
           }else if(command.equals("GET_PIC")){
           	
           	if (vehicleData.isGPSActivated()){
-          		String fileName = "files/Highway.jpg" ;
+          		File fileName = new File("files\\Highway.jpg") ;
           		FileInputStream fis = null;
           	             	    
           	    try {
-          	      fis = new FileInputStream(fileName);
-          	                	            	        	      
-          	      dataWriter.writeBytes("207 OK Transmitting....\r\n");
-          	      int bytes = sendBytes(fis); 
-          	      dataWriter.writeBytes("\r\n");
-          	      dataWriter.writeBytes(bytes + " bytes transmitted\r\n");
+          	    	  fis = new FileInputStream(fileName);
+            	      int lenght= (int)fileName.length();         	            	        	      
+            	      dataWriter.writeBytes("207 OK Transmitting " + lenght + " bytes....\r\n");
+            	      dataWriter.writeBytes(lenght + "\r\n");
+            	      sendBytes(fis, lenght);             	      
+            	      dataWriter.writeBytes(lenght + " bytes transmitted\r\n");
+            	      fis.close();
           	      
           	    }
           	    catch (FileNotFoundException e) {
@@ -351,11 +356,13 @@ public class Server extends Thread{
  		            	   if (!sen.isActivated()){
  		            		   
  		            		   sen.setState("ON");
- 		            		   /*try {
- 									vehicleDAO.setSensorState(sensorID, "ON");
+ 		            		   try {
+ 									vehicleDAO.connect();
+		            			  	vehicleDAO.setSensorState(sensorID, "ON");
+		            			   	vehicleDAO.disconnect();	
  		            		   } catch (SQLException e) {
  									e.printStackTrace();
- 								}*/
+ 								}
  		            		   
  		            		   dataWriter.writeBytes("203 OK Sensor activated\r\n");
  		            	   }
@@ -380,11 +387,13 @@ public class Server extends Thread{
  		            	   if (sen.isActivated()){
  		            		   
  		            		   sen.setState("OFF");
- 		            		   /*try {
- 		            			   vehicleDAO.setSensorState(sensorID, "OFF");
+ 		            		   try {
+ 		            			   vehicleDAO.connect();
+		            			   vehicleDAO.setSensorState(sensorID, "OFF");
+		            			   vehicleDAO.disconnect();
  		            		    } catch (SQLException e) {
  								   	e.printStackTrace();
- 								}*/
+ 								}
  		            		   dataWriter.writeBytes("204 OK Sensor deactivated\r\n");
  		            	   }
  		            	   else dataWriter.writeBytes("419 ERR Sensor already deactivated\r\n");
@@ -448,17 +457,18 @@ public class Server extends Thread{
            }else if(command.equals("GET_PIC")){
            	
            		if (vehicleData.isGPSActivated()){
-           		//Hay que hacer dinamico el nombre del fichero?
+
            		String fileName = "files/Highway.jpg" ;
            		FileInputStream fis = null;
            	             	    
            	    try {
-           	      fis = new FileInputStream(fileName);
-           	                	            	        	      
-           	      dataWriter.writeBytes("207 OK Transmitting....\r\n");
-           	      int bytes = sendBytes(fis); 
-           	      dataWriter.writeBytes("\r\n");
-           	      dataWriter.writeBytes(bytes + " bytes transmitted\r\n");
+            	      fis = new FileInputStream(fileName);
+              	      int lenght= fileName.getBytes().length;         	            	        	      
+              	      dataWriter.writeBytes("207 OK Transmitting " + lenght + " bytes....\r\n");              
+              	      sendBytes(fis, lenght); 
+              	      dataWriter.writeBytes("\r\n");
+              	      dataWriter.writeBytes(lenght + " bytes transmitted\r\n");
+              	      fis.close();
            	      
            	    }
            	    catch (FileNotFoundException e) {
@@ -502,18 +512,11 @@ public class Server extends Thread{
 	  socket.close();
   }
   
-  private int sendBytes(FileInputStream fis) throws Exception {
-	    // Construct a 1K buffer to hold bytes on their way to the socket.
-	    byte[] buffer = new byte[1024];
-	    int bytes = 0;
-	    int numBytes = 0;
-
-	    // Copy requested file into the socket's output stream.
-	    while ( (bytes = fis.read(buffer)) != -1) {
-	    	dataWriter.write(buffer, 0, bytes);
-	    	numBytes+=bytes;
-	    }
-		return numBytes;
+  private void sendBytes(FileInputStream fis, int fileLenght) throws Exception {
+	    // Construct a buffer to hold bytes on their way to the socket.
+	    byte[] buffer = new byte[fileLenght];
+	    dataWriter.write(buffer);
+	
   }
   
   public String getUserID() {
