@@ -512,6 +512,7 @@ public class Server extends Thread{
 	  dataWriter.close();
 	  dataReader.close();
 	  socket.close();
+
   }
   
   private void sendBytes(FileInputStream fis, int fileLenght) throws Exception {

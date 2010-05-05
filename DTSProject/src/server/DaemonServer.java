@@ -66,6 +66,9 @@ public class DaemonServer {
 				        numberClients++;
 	    		  } catch (SocketTimeoutException  e) {
 	    				System.out.println("Still waiting...");
+	    				System.out.println(numberClients);
+	    				for(int i = 0; i<userList.size();i++)
+	    					System.out.println(userList.get(i).getId() + "   " + userList.get(i).getUserID() + "   " + userList.get(i).getPass() );
 	    		  }
 	    		 }
 	      }
