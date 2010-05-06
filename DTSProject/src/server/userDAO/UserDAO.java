@@ -6,6 +6,8 @@ package server.userDAO;
 	import java.sql.ResultSet;
 	import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 	
 	public class UserDAO implements IUserDAO{
 		Connection con= null;
@@ -31,6 +33,24 @@ import java.sql.Statement;
 			stmt.close();
 			return pass;
 		}
+		public List<String> getUsers() throws SQLException {
+			List<String> users = new ArrayList();
+			String query = "select * from USERS ";
+			
+			Statement stmt = con.createStatement();
+			stmt.executeQuery(query);
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()){			
+				String line =rs.getString("User")+";"+rs.getString("Name")+";"+rs.getInt("password");
+				users.add(line); 
+			}
+			
+			rs.close();
+			stmt.close();
+			
+			return users;
+		}
 		
 		public void changeUserName(String user, String newUserName) throws SQLException{
 			Statement stmt = con.createStatement();
@@ -53,7 +73,23 @@ import java.sql.Statement;
 			stmt.close();
 		}
 			
-
+		public void deleteUser(String user) throws SQLException
+		{
+			Statement stmt = con.createStatement();
+			System.out.println(user);
+			String update ="DELETE FROM USERS WHERE User='" + user + "'";
+			stmt.executeUpdate(update);
+			stmt.close();
+				
+		}
+		
+		public void insertUser (String name,String nick, String pass) throws SQLException
+		{
+			Statement stmt = con.createStatement();
+			String update ="INSERT INTO USERS VALUES ('" + nick + "','"+name+"','"+pass+"')";
+			stmt.executeUpdate(update);
+			stmt.close();
+		}
 		public void disconnect()throws SQLException{
 			con.close();
 		}
