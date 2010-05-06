@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
  * and open the template in the editor.
  */
 
-class Contenedor extends Container
+class GUIContainer extends Container
 {
 
 	public ImageIcon icon = new ImageIcon ("files\\Wallpaper.jpg");

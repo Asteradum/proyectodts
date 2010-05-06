@@ -123,7 +123,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
         quitButton= new javax.swing.JButton();
 
         
-        this.setContentPane(new Contenedor());
+        this.setContentPane(new GUIContainer());
         
         PASS.addActionListener(this);
         ENTER.addActionListener(this);

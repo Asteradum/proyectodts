@@ -41,6 +41,7 @@ public class Server extends Thread{
   private String vehicleID = null;
   private String userID = null;
   private String pass = null;
+  private ServerController controller = null;
   
 
 
@@ -51,7 +52,7 @@ public class Server extends Thread{
   * @param d Tabla de correspondencias de diciconario a utilizar.
   * @param sc Socket que comunica con el cliente conectado.
   */
-  public Server( String vehicleCode, Socket sc ) {
+  public Server( String vehicleCode, Socket sc , ServerController controller) {
     try{
       vehicleDAO.connect();
       vehicleID = vehicleCode;
@@ -61,6 +62,7 @@ public class Server extends Thread{
       socket = sc;
       dataReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       dataWriter = new DataOutputStream(socket.getOutputStream());
+      this.controller = controller;
     }catch(IOException ioe){
       System.err.println(ioe);
     } catch (SQLException e) {
@@ -512,6 +514,7 @@ public class Server extends Thread{
 	  dataWriter.close();
 	  dataReader.close();
 	  socket.close();
+	  controller.removeServer(this);
 
   }
   
