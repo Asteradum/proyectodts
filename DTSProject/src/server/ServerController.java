@@ -10,6 +10,8 @@ public class ServerController {
 	private static int numberClients = 0;
 	private List<Server> userList = new ArrayList<Server>();
 	private static DaemonServer daemonServer = null;
+	private ServerGUI form = null;
+
 	
 	public int getNumberClients() {
 		return numberClients;
@@ -31,11 +33,14 @@ public class ServerController {
 		userList.remove(server);
 		
 	}
-	
+	public ServerController()  {
+		form = new ServerGUI(this);
+	}
 	public static void main(String[] args) {
 		serverController = new ServerController();
 		daemonServer = new DaemonServer(serverController);
 		daemonServer.start(args[0]);
+		new ServerController();
 
 	}
 
