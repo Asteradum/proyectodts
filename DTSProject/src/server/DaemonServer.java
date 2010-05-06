@@ -20,55 +20,31 @@ import data.*;
  */
 public class DaemonServer {
 
-	private static int maxNumberConnections = -1;
-	private static int numberClients = 0;
-	private static List<Server> userList = new ArrayList<Server>();
+	private ServerController controller = null;
 	
-	public int getNumberClients() {
-		return numberClients;
+
+	public DaemonServer(ServerController controller){
+		this.controller = controller;
 	}
 
-	public void setMaxNumberConnections(int maxNumberConnections) {
-		this.maxNumberConnections = maxNumberConnections;
-	}
-
-	public int getNumberConnections() {
-		return maxNumberConnections;
-	}
 	
-	public void closeUserConnection(long threadID){
-		boolean finded = false;
-		
-		int i = 0;
-		while (!finded && i<userList.size()){
-			if (userList.get(i).getId() == threadID) 
-				finded = true;
-			else i++;
-		}
-		try {
-			userList.get(i).closeServer();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}			
-	}
-	
-	public static void main(String args[]){
+	public void start(String VehicleName){
 	    try{
 	      ServerSocket serverSocket = new ServerSocket(DataConnection.PORT);
 	      serverSocket.setSoTimeout(3000);
 	      for(;;){
-	    	  if ((maxNumberConnections < 0) || (numberClients < maxNumberConnections)){
+	    	  if ((controller.getMaxNumberConnections() < 0) || (controller.getNumberClients() < controller.getMaxNumberConnections())){
 	    		  try{
-				        Server server = new Server(args[0], serverSocket.accept());
-				        userList.add(server);
+				        Server server = new Server(VehicleName, serverSocket.accept(), controller);
+				        controller.getUserList().add(server);
 				        server.start();
 				        System.out.println("Executing server process");
-				        numberClients++;
+				        controller.setMaxNumberConnections(controller.getNumberClients() + 1);
 	    		  } catch (SocketTimeoutException  e) {
 	    				System.out.println("Still waiting...");
-	    				System.out.println(numberClients);
-	    				for(int i = 0; i<userList.size();i++)
-	    					System.out.println(userList.get(i).getId() + "   " + userList.get(i).getUserID() + "   " + userList.get(i).getPass() );
+	    				System.out.println(controller.getNumberClients());
+	    				for(int i = 0; i<controller.getUserList().size();i++)
+	    					System.out.println(controller.getUserList().get(i).getId() + "   " + controller.getUserList().get(i).getUserID() + "   " + controller.getUserList().get(i).getPass() );
 	    		  }
 	    		 }
 	      }
