@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vehicle {
-	private String ID_vehicle = null;;
-	private String GPSState = "OFF";;
-	private String location = "4°41'24.14-74°02'46.86";
+	private String ID_vehicle = null;
+	private String GPSState = null;
+	private String location = null;
 	private List <Sensor> sensors = new ArrayList<Sensor>();
 	
 	

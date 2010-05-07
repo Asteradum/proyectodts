@@ -31,10 +31,19 @@ import server.domainClasses.Vehicle;
 			
 		Vehicle vehicle=new Vehicle();
 		
-		String query = "SELECT  SENSOR.ID_SENSOR, SENSOR.DESCRIPTION, SENSOR.STATE, LOG.DATE,LOG.CODE, LOG.HOUR,LOG.COORDINATES,LOG.VALUE FROM LOG,SENSOR where " +
-		"LOG.ID_SENSOR=SENSOR.ID_SENSOR ORDER BY 1 ASC";
 		Statement stmt = con.createStatement();
+		String query = "SELECT GPS.STATE, GPS.VALUE FROM GPS";
 		ResultSet rs = stmt.executeQuery(query);
+		while (rs.next()){
+			vehicle.setState(rs.getString(1));
+			vehicle.setLocation(rs.getString(2));
+		}
+		
+		stmt.close();
+		query = "SELECT  SENSOR.ID_SENSOR, SENSOR.DESCRIPTION, SENSOR.STATE, LOG.DATE,LOG.CODE, LOG.HOUR,LOG.COORDINATES,LOG.VALUE FROM LOG,SENSOR where " +
+		"LOG.ID_SENSOR=SENSOR.ID_SENSOR ORDER BY 1 ASC";
+		stmt = con.createStatement();
+		rs = stmt.executeQuery(query);
 		Sensor sen = null;
 		Log log = null;
 		while (rs.next()){
@@ -63,6 +72,17 @@ import server.domainClasses.Vehicle;
 			Statement stmt = con.createStatement();
 			String update = "UPDATE SENSOR SET STATE='" + state + "' WHERE ID_SENSOR='" + ID + "'";
 			//String update = "UPDATE SENSOR SET STATE='ON' WHERE ID_SENSOR='S1'";
+			stmt.executeUpdate(update);
+			stmt.close();
+			return true;
+		}else return false;
+	}
+	
+	public boolean setGPSState(String state) throws SQLException{
+		state.toUpperCase();
+		if (state.equals("ON") || state.equals("OFF")){
+			Statement stmt = con.createStatement();
+			String update = "UPDATE GPS SET STATE='" + state + "'";
 			stmt.executeUpdate(update);
 			stmt.close();
 			return true;

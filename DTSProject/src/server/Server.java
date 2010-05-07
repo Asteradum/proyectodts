@@ -238,6 +238,13 @@ public class Server extends Thread{
             	if (!vehicleData.isGPSActivated()){
             		
             		vehicleData.setState("ON");
+            		try {
+           			   vehicleDAO.connect();
+          			   vehicleDAO.setGPSState("ON");
+          			   vehicleDAO.disconnect();
+           		    } catch (SQLException e) {
+ 						   	e.printStackTrace();
+ 					}
          		   
          		   dataWriter.writeBytes("205 OK GPS activated\r\n");
             	}
@@ -248,6 +255,13 @@ public class Server extends Thread{
             	if (vehicleData.isGPSActivated()){
             		
             		vehicleData.setState("OFF");
+            		try {
+           			   vehicleDAO.connect();
+          			   vehicleDAO.setGPSState("OFF");
+          			   vehicleDAO.disconnect();
+           		    } catch (SQLException e) {
+ 						   	e.printStackTrace();
+ 					}
             		
          		   dataWriter.writeBytes("206 OK GPS deactivated\r\n");
             	}
@@ -416,7 +430,13 @@ public class Server extends Thread{
              	if (!vehicleData.isGPSActivated()){
              		
              		vehicleData.setState("ON");
-          		   
+             		try {
+          			   vehicleDAO.connect();
+         			   vehicleDAO.setGPSState("ON");
+         			   vehicleDAO.disconnect();
+          		    } catch (SQLException e) {
+						   	e.printStackTrace();
+					}
           		   dataWriter.writeBytes("205 OK GPS activated\r\n");
              	}
           	   	else dataWriter.writeBytes("419 ERR GPS already activated\r\n");
@@ -427,7 +447,13 @@ public class Server extends Thread{
              	if (vehicleData.isGPSActivated()){
              		
              		vehicleData.setState("OFF");
-             		
+             		try {
+           			   vehicleDAO.connect();
+          			   vehicleDAO.setGPSState("OFF");
+          			   vehicleDAO.disconnect();
+           		    } catch (SQLException e) {
+ 						   	e.printStackTrace();
+ 					}
           		   dataWriter.writeBytes("206 OK GPS deactivated\r\n");
              	}
           	   	else dataWriter.writeBytes("420 ERR GPS already deactivated\r\n");

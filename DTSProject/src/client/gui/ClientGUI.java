@@ -173,7 +173,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
         ipLabel.setText("IP");
         quitButton.setText("Exit");
         
-        IPfield.setText(" ");
+        IPfield.setText("");
 
         statusBar.setText("Dts Project");
 
