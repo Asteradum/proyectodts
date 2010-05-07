@@ -90,6 +90,7 @@ public class Server extends Thread{
 
         switch(state){
           case 0:
+        	  //--------------------------USER [USER]-----------------------------
         	if(command.equals("USER")){
         		try{
 		              userID = sTok.nextToken();
@@ -108,7 +109,7 @@ public class Server extends Thread{
             break;
 
           case 1:
-        	
+        	//--------------------------PASS [PASSWORD]-----------------------------
             if(command.equals("PASS")){
             	try{
 		              pass = sTok.nextToken();
@@ -136,7 +137,8 @@ public class Server extends Thread{
 	                state = 0;
 					e.printStackTrace();
 				}
-            }else if(command.equals("QUIT")){
+            }//--------------------------QUIT-----------------------------
+            else if(command.equals("QUIT")){
               state = 4;
             }else{
               dataWriter.writeBytes("500 ERR Incorrect command\r\n");
@@ -144,6 +146,7 @@ public class Server extends Thread{
 		    break;    
 
           case 2:
+        	//--------------------------LISTSENSOR-----------------------------
             if(command.equals("LISTSENSOR")){
             	dataWriter.writeBytes("112 OK Start of sensor list\r\n");
             	
@@ -154,7 +157,8 @@ public class Server extends Thread{
               
               dataWriter.writeBytes("212 OK End of sensor list\r\n");
               
-            }else if(command.equals("HISTORYLOG")){
+            }//--------------------------HISTORYLOG-----------------------------
+            else if(command.equals("HISTORYLOG")){
             	try{
 		              sensorID = sTok.nextToken();		                       
 		              
@@ -176,7 +180,8 @@ public class Server extends Thread{
 		    		dataWriter.writeBytes("415 ERR Missing sensor_id parameter\r\n");
 		    	}
 	              
-            }else if(command.equals("ON")){
+            }//--------------------------ON [SENSOR]-----------------------------
+            else if(command.equals("ON")){
             	try{
 		              sensorID = sTok.nextToken();
 		              
@@ -205,7 +210,8 @@ public class Server extends Thread{
 		    	catch(NoSuchElementException e){
 		    		dataWriter.writeBytes("415 ERR Missing sensor_id parameter\r\n");
 		    	}
-            }else if(command.equals("OFF")){
+            }//--------------------------OFF [SENSOR]-----------------------------
+            else if(command.equals("OFF")){
             	try{
 		              sensorID = sTok.nextToken();
 		              
@@ -233,7 +239,8 @@ public class Server extends Thread{
 		    	catch(NoSuchElementException e){
 		    		dataWriter.writeBytes("415 ERR Missing sensor_id parameter\r\n");
 		    	}
-            }else if(command.equals("GPSON")){
+            }//--------------------------GPSON-----------------------------
+            else if(command.equals("GPSON")){
             	
             	if (!vehicleData.isGPSActivated()){
             		
@@ -250,7 +257,8 @@ public class Server extends Thread{
             	}
          	   	else dataWriter.writeBytes("419 ERR GPS already activated\r\n");
             	
-            }else if(command.equals("GPSOFF")){
+            }//--------------------------GPSOFF-----------------------------
+            else if(command.equals("GPSOFF")){
             	
             	if (vehicleData.isGPSActivated()){
             		
@@ -267,7 +275,8 @@ public class Server extends Thread{
             	}
          	   	else dataWriter.writeBytes("420 ERR GPS already deactivated\r\n");
             	
-            }else if(command.equals("GET_CURVALUE")){
+            }//--------------------------GET_CURVALUE [SENSOR]-----------------------------
+            else if(command.equals("GET_CURVALUE")){
             	try{
 		              pass = sTok.nextToken();
 		              
@@ -289,7 +298,8 @@ public class Server extends Thread{
 		    	catch(NoSuchElementException e){
 		    		dataWriter.writeBytes("415 ERR Missing sensor_id parameter\r\n");
 		    	}
-          }else if(command.equals("GET_PIC")){
+          }//--------------------------GET_PIC-----------------------------
+            else if(command.equals("GET_PIC")){
           	
           	if (vehicleData.isGPSActivated()){
           	             	    
@@ -316,7 +326,8 @@ public class Server extends Thread{
            	}
        	   	else dataWriter.writeBytes("421 ERR GPS is not active\r\n");
           	
-          }else if(command.equals("GET_LOC")){ 
+          } //--------------------------GET_LOC-----------------------------
+            else if(command.equals("GET_LOC")){ 
         	  dataWriter.writeBytes("501 ERR This command is only allowed after getting a picture\r\n");
           }else if(command.equals("QUIT")){
               state = 4;
@@ -331,6 +342,7 @@ public class Server extends Thread{
         	 //The difference is that command GET_LOC it could be executed here.
         	 //When any command is requested (except QUIT), the proccess will return to the state 2.
         	 
+        	//--------------------------LISTSENSOR-----------------------------
         	 if(command.equals("LISTSENSOR")){
              	dataWriter.writeBytes("112 OK Start of sensor list\r\n");
              	
@@ -342,7 +354,8 @@ public class Server extends Thread{
                 dataWriter.writeBytes("212 OK End of sensor list\r\n");
                 state = 2;
                
-             }else if(command.equals("HISTORYLOG")){
+             }//--------------------------HISTORYLOG-----------------------------
+             else if(command.equals("HISTORYLOG")){
              	try{
  		              sensorID = sTok.nextToken();		                       
  		              
@@ -364,7 +377,8 @@ public class Server extends Thread{
  		    	} 		    	
  		    	state = 2;   
  		    	
-             }else if(command.equals("ON")){
+             }//--------------------------ON [SENSOR]-----------------------------
+             else if(command.equals("ON")){
              	try{
  		              sensorID = sTok.nextToken();
  		              
@@ -395,7 +409,8 @@ public class Server extends Thread{
  		    	}
  		    	state = 2;
  		    	
-             }else if(command.equals("OFF")){
+             }//--------------------------OFF [SENSOR]-----------------------------
+             else if(command.equals("OFF")){
              	try{
  		              sensorID = sTok.nextToken();
  		              
@@ -425,7 +440,8 @@ public class Server extends Thread{
  		    	}
  		    	state = 2;
  		    	
-             }else if(command.equals("GPSON")){
+             }//--------------------------GPSON-----------------------------
+             else if(command.equals("GPSON")){
              	
              	if (!vehicleData.isGPSActivated()){
              		
@@ -442,7 +458,8 @@ public class Server extends Thread{
           	   	else dataWriter.writeBytes("419 ERR GPS already activated\r\n");
              	state = 2;
              	
-             }else if(command.equals("GPSOFF")){
+             }//--------------------------GPSOFF-----------------------------
+             else if(command.equals("GPSOFF")){
              	
              	if (vehicleData.isGPSActivated()){
              		
@@ -459,7 +476,8 @@ public class Server extends Thread{
           	   	else dataWriter.writeBytes("420 ERR GPS already deactivated\r\n");
              	state = 2;
              	
-             }else if(command.equals("GET_CURVALUE")){
+             }//--------------------------GET_CURVALUE [SENSOR]-----------------------------
+             else if(command.equals("GET_CURVALUE")){
              	try{
  		              pass = sTok.nextToken();
  		              
@@ -483,7 +501,8 @@ public class Server extends Thread{
  		    	}
  		    	state = 2;
  		    	
-           }else if(command.equals("GET_PIC")){
+           }//--------------------------GET_PIC-----------------------------
+             else if(command.equals("GET_PIC")){
            	
            		if (vehicleData.isGPSActivated()){
            	             	    
@@ -511,14 +530,16 @@ public class Server extends Thread{
         	   	else dataWriter.writeBytes("421 ERR GPS is not active\r\n");
            		state = 2;
            		
-           }else if(command.equals("GET_LOC")){ 
+           }//--------------------------GET_LOC-----------------------------
+             else if(command.equals("GET_LOC")){ 
         	   if (vehicleData.isGPSActivated()){
             		dataWriter.writeBytes("115 OK ");            		
             		dataWriter.writeBytes(vehicleData.getLocation() + "\r\n");
             	}
          	   	else dataWriter.writeBytes("421 ERR GPS is not active\r\n");
             	state = 2;
-           }else if(command.equals("QUIT")){
+           }//--------------------------QUIT-----------------------------
+             else if(command.equals("QUIT")){
                state = 4;
              }else{
                dataWriter.writeBytes("500 ERR Incorrect command\r\n");
