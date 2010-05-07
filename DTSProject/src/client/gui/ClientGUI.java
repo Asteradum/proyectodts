@@ -40,7 +40,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
     private javax.swing.JButton currentValueButton;
     private javax.swing.JTextField gpsField;
     private javax.swing.JLabel gpslabel;
-    private javax.swing.JTextArea image;
+    private javax.swing.JLabel imageComponentLabel;
     private javax.swing.JButton imageButton;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel ipLabel;
@@ -94,42 +94,42 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
-    	userLabel = new javax.swing.JLabel();
-        userField = new javax.swing.JTextField();
-        ENTER = new javax.swing.JButton();
-        passField = new javax.swing.JPasswordField();
-        passLabel = new javax.swing.JLabel();
-        PASS = new javax.swing.JButton();
-        ipLabel = new javax.swing.JLabel();
-        IPfield = new javax.swing.JTextField();
-        statusBar = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        progressBar = new javax.swing.JProgressBar();
-        sensorListLabel = new javax.swing.JLabel();
-        loginLabel = new javax.swing.JLabel();
-        logButton = new javax.swing.JButton();
-        stateChangeBottonOFF = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        image = new javax.swing.JTextArea();
-        imageLabel = new javax.swing.JLabel();
-        imageButton = new javax.swing.JButton();
-        coordinateField = new javax.swing.JTextField();
-        coordinatesButton = new javax.swing.JButton();
-        coorLabel = new javax.swing.JLabel();
-        GPSONButton = new javax.swing.JButton();
-        gpslabel = new javax.swing.JLabel();
-        logLabel = new javax.swing.JLabel();
-        sensorList = new javax.swing.JComboBox();
-        sensorField = new javax.swing.JTextField();
-        sensorStateField = new javax.swing.JTextField();
-        sensorNameLabel = new javax.swing.JLabel();
-        stateLabel = new javax.swing.JLabel();
-        stateChangeON = new javax.swing.JButton();
-        GPSOFFButton = new javax.swing.JButton();
-        gpsField = new javax.swing.JTextField();
-        currentValueButton = new javax.swing.JButton();
-        quitButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+    	 userLabel = new javax.swing.JLabel();
+         userField = new javax.swing.JTextField();
+         ENTER = new javax.swing.JButton();
+         passField = new javax.swing.JPasswordField();
+         passLabel = new javax.swing.JLabel();
+         PASS = new javax.swing.JButton();
+         ipLabel = new javax.swing.JLabel();
+         IPfield = new javax.swing.JTextField();
+         statusBar = new javax.swing.JLabel();
+         jSeparator1 = new javax.swing.JSeparator();
+         progressBar = new javax.swing.JProgressBar();
+         sensorListLabel = new javax.swing.JLabel();
+         loginLabel = new javax.swing.JLabel();
+         logButton = new javax.swing.JButton();
+         stateChangeBottonOFF = new javax.swing.JButton();
+         imageLabel = new javax.swing.JLabel();
+         imageButton = new javax.swing.JButton();
+         coordinateField = new javax.swing.JTextField();
+         coordinatesButton = new javax.swing.JButton();
+         coorLabel = new javax.swing.JLabel();
+         GPSONButton = new javax.swing.JButton();
+         gpslabel = new javax.swing.JLabel();
+         logLabel = new javax.swing.JLabel();
+         sensorList = new javax.swing.JComboBox();
+         sensorField = new javax.swing.JTextField();
+         sensorStateField = new javax.swing.JTextField();
+         sensorNameLabel = new javax.swing.JLabel();
+         stateLabel = new javax.swing.JLabel();
+         stateChangeON = new javax.swing.JButton();
+         GPSOFFButton = new javax.swing.JButton();
+         gpsField = new javax.swing.JTextField();
+         currentValueButton = new javax.swing.JButton();
+         quitButton = new javax.swing.JButton();
+         jScrollPane2 = new javax.swing.JScrollPane();
+         tabla = new javax.swing.JTable();
+         imageComponentLabel = new javax.swing.JLabel();
         tabla = new javax.swing.JTable();
 
         
@@ -173,7 +173,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
         ipLabel.setText("IP");
         quitButton.setText("Exit");
         
-        IPfield.setText("");
+        IPfield.setText(" ");
 
         statusBar.setText("Dts Project");
 
@@ -188,10 +188,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
         stateChangeBottonOFF.setText("Change State to OFF");
         stateChangeBottonOFF.setEnabled(false);
 
-        image.setColumns(20);
-        image.setEditable(false);
-        image.setRows(5);
-        jScrollPane1.setViewportView(image);
+        
 
         imageLabel.setText("Car Image");
 
@@ -256,13 +253,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(64, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(685, 685, 685)
-                        .addComponent(currentValueButton))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -287,99 +281,85 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                                 .addComponent(loginLabel))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(coordinatesButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(coordinateField, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(coorLabel))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(GPSONButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(GPSOFFButton, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(92, 92, 92)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(coordinatesButton)
-                                    .addComponent(GPSONButton))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(coordinateField, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(42, 42, 42)
-                                        .addComponent(coorLabel))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(gpslabel)
-                                            .addComponent(gpsField, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(GPSOFFButton)))))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(sensorNameLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(sensorField, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(63, 63, 63)
-                                        .addComponent(logButton))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(stateLabel)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(sensorStateField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(stateChangeON, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(stateChangeBottonOFF, javax.swing.GroupLayout.Alignment.LEADING))))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(82, 82, 82)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(43, 43, 43)
-                                                .addComponent(imageLabel))
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(38, 38, 38)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(imageButton)))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(66, 66, 66)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(sensorList, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(sensorListLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(291, 291, 291)
-                                .addComponent(logLabel))))
+                                    .addComponent(gpsField, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gpslabel)
+                                    .addComponent(imageLabel)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(837, 837, 837)
-                        .addComponent(quitButton)))
-                .addGap(35, 35, 35))
+                        .addGap(61, 61, 61)
+                        .addComponent(imageComponentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(imageButton))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(100, 100, 100)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(sensorNameLabel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(sensorField, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(45, 45, 45)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addComponent(sensorList, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(sensorListLabel, javax.swing.GroupLayout.Alignment.LEADING)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(stateLabel)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(sensorStateField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addComponent(stateChangeON, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(stateChangeBottonOFF, javax.swing.GroupLayout.Alignment.LEADING))))
+                                        .addContainerGap(195, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(quitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(198, 198, 198)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(119, 119, 119)
+                                    .addComponent(logButton)
+                                    .addContainerGap()))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addComponent(logLabel)
+                                .addContainerGap()))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(25, 25, 25)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(103, 103, 103)
+                        .addComponent(currentValueButton)
+                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(statusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(675, Short.MAX_VALUE))
+                .addContainerGap(324, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(sensorListLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(sensorList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(sensorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sensorNameLabel)
-                                    .addComponent(logButton))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(stateLabel)
-                                    .addComponent(sensorStateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(stateChangeBottonOFF))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(stateChangeON))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(logLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(22, 22, 22))))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
                         .addComponent(loginLabel)
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -396,39 +376,60 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                             .addComponent(PASS)
                             .addComponent(passLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(13, 13, 13)
-                .addComponent(currentValueButton)
-                .addGap(18, 18, 18)
-                .addComponent(imageLabel)
-                .addGap(18, 18, 18)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(gpslabel)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(GPSONButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(GPSOFFButton)
+                                    .addComponent(logButton)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(gpsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(sensorListLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sensorList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(sensorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sensorNameLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(stateLabel)
+                            .addComponent(sensorStateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(stateChangeBottonOFF))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(stateChangeON)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(gpslabel)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(coordinateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(coorLabel))
-                                .addGap(4, 4, 4))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(gpsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(GPSONButton)
-                                    .addComponent(GPSOFFButton))
-                                .addGap(42, 42, 42)
-                                .addComponent(coordinatesButton)))
-                        .addGap(83, 83, 83)
-                        .addComponent(quitButton))
+                        .addComponent(imageLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(imageComponentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
-                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(13, 13, 13)
-                        .addComponent(imageButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addComponent(statusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(logLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(currentValueButton)))
+                .addGap(33, 33, 33)
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(imageButton)
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(coordinatesButton)
+                    .addComponent(coordinateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coorLabel)
+                    .addComponent(quitButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -476,23 +477,24 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                         try {
 							controller.login(user, pass);
 							statusBar.setText("Hello"+ user+"!");
+							System.out.println("helloooooo");
+	                        
 			         } catch (ServerException e1) {
 							System.out.println();
 							statusBar.setText(e1.getMessage());
 			                 }
-					    System.out.println("helloooooo");
-                        List<String> list = null;
-                   		try {
-                   			list = controller.getListSensors();
-                   			for (int i=0; i<list.size(); i++){
-                   				System.out.println(list.get(i));
-                   				StringTokenizer sTok= new StringTokenizer(list.get(i),": ");
-                   				String item=sTok.nextToken();
-                   				System.out.println(item);
-                   				sensorList.addItem(item);}
-                   		} catch (ServerException e1) {
-                   			System.out.println();
-                   			statusBar.setText(e1.getMessage());}
+			         List<String> list = null;
+                		try {
+                			list = controller.getListSensors();
+                			for (int i=0; i<list.size(); i++){
+                				System.out.println(list.get(i));
+                				StringTokenizer sTok= new StringTokenizer(list.get(i),": ");
+                				String item=sTok.nextToken();
+                				System.out.println(item);
+                				sensorList.addItem(item);}
+                		} catch (ServerException e1) {
+                			System.out.println();
+                			statusBar.setText(e1.getMessage());}  
 						}
                 
                 
@@ -584,7 +586,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                 		state=1;
                 		controller.getPicture();
              			statusBar.setText("Here you have the picture");
-                 		
+             			imageComponentLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\SoNia\\workspace\\DTSProject\\recievedData\\Photo.jpg")); // NOI18N
+             	        
              		} catch (ServerException e1) {
              			System.out.println(e1.getMessage());
              			//statusBar.setText(e1.getMessage());
