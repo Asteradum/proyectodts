@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -110,7 +111,6 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
         newButton.addActionListener(this);
         modifyBotton.addActionListener(this);
         deleteButton.addActionListener(this);
-        
         conectedUsers.addActionListener(this);
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -139,7 +139,6 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
     	        ) 
         		);
         loadTable();
-        conectedUsers.addItem(" ");
         Table.setModel(model);
      
         jScrollPane1.setViewportView(Table);
@@ -168,7 +167,7 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("If you want to modify a user, select it first in the table\n");
+        jTextArea1.setText("If you want to modify a user,\n select it first in the table\n");
         jScrollPane2.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -184,7 +183,7 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                                .addComponent(conectedUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(conectedUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addComponent(numberConectLabel)
                             .addComponent(controlLabel))
@@ -434,28 +433,36 @@ public void actionPerformed(ActionEvent e) {
 					loadTable();
                  }
                 if (buttonPressed==disconectButton)
-                {}
+                {	int num=conectedUsers.getSelectedIndex();
+                	String line=conectedUsers.getSelectedItem().toString();
+                	conectedUsers.remove(num);
+                	StringTokenizer sTok= new StringTokenizer(line,";");
+    				sTok.nextToken();String item=sTok.nextToken();
+    				System.out.println(Long.valueOf(item));
+    				controller.removeServerThread(Long.valueOf(item));
+                }
                 	
                 	
                 	}
+        else if (e.getSource() instanceof JComboBox )
+		 {}
+            
 		
 	}
 
 
 
-	public void Change() {
-		conectedUsers.removeAll();
+	public void Change( List<String >list) {
+		conectedUsers.removeAllItems();
 		List<Server> userList =null;
 		userList=controller.getUserList();
 		String number=String.valueOf(userList.size());
 		clientNumberField.setText(number);
-		
-		for (int i=0; i<userList.size(); i++){
-	   				String item=userList.get(i).getUserID();
+		for (int i=0; i<list.size(); i++){
+	   				String item=list.get(i);
 	   				conectedUsers.addItem(item);
 	   				}
 		
-		// TODO Auto-generated method stub
 		
 	}
 
