@@ -70,6 +70,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
 	
     private ClientController controller = null;
     private int state=0;  
+    private boolean logged = false;
     
     
     public ClientGUI(ClientController clientController) {
@@ -173,7 +174,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
         ipLabel.setText("IP");
         quitButton.setText("Exit");
         
-        IPfield.setText(" ");
+        IPfield.setText("");
 
         statusBar.setText("Dts Project");
 
@@ -446,8 +447,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
         {
                 JButton buttonPressed=(JButton)e.getSource();
                 if (buttonPressed==ENTER)
-                {  			boolean conect=controller.connect(IPfield.getText());
-                              if (conect){
+                {  			boolean connect=controller.connect(IPfield.getText());
+                              if (connect){
                                IPfield.setEnabled(false);
                 			   userField.setEnabled(true);
                                passField.setEnabled(true);
@@ -476,16 +477,15 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                         String pass = new String(passField.getPassword());
                         try {
 							controller.login(user, pass);
-							statusBar.setText("Hello"+ user+"!");
-							System.out.println("helloooooo");
+							
 	                        
-			         } catch (ServerException e1) {
-							System.out.println();
+                        } catch (ServerException e1) {
 							statusBar.setText(e1.getMessage());
-			                 }
+			            }
 			         List<String> list = null;
                 		try {
                 			list = controller.getListSensors();
+                			logged = true;
                 			for (int i=0; i<list.size(); i++){
                 				System.out.println(list.get(i));
                 				StringTokenizer sTok= new StringTokenizer(list.get(i),": ");
@@ -574,13 +574,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                   }
                 
                 
-                 else if (buttonPressed==quitButton)
-                	 
-                 { Object control=e.getSource();
-             	if(control.equals(PASS))
-             		controller.quit();
-                 System.exit(0);}
-                
+                 else if (buttonPressed==quitButton){ 
+	             	if(logged){
+	             		controller.quit();
+	             		System.out.println("Estaba logeado");
+	             	}
+	                 System.exit(0);
+	             }
                  else if (buttonPressed==imageButton)
                  { try {
                 		state=1;

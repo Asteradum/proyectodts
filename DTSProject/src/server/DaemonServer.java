@@ -39,12 +39,18 @@ public class DaemonServer {
 				        controller.getUserList().add(server);
 				        server.start();
 				        System.out.println("Executing server process");
-				        controller.setMaxNumberConnections(controller.getNumberClients() + 1);
 	    		  } catch (SocketTimeoutException  e) {
 	    				System.out.println("Still waiting...");
 	    				System.out.println(controller.getNumberClients());
+	    				Thread t= null;
+	    			/*	for(int i = 0; i<controller.getUserList().size();i++){
+	    					t = controller.getUserList().get(i);
+	    					if (!t.isAlive())
+	    						controller.removeServerThread(t.getId());
+	    				}*/		
 	    				for(int i = 0; i<controller.getUserList().size();i++)
 	    					System.out.println(controller.getUserList().get(i).getId() + "   " + controller.getUserList().get(i).getUserID() + "   " + controller.getUserList().get(i).getPass() );
+	    					
 	    		  }
 	    		 }
 	      }

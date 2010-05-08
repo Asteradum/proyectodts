@@ -561,7 +561,7 @@ public class Server extends Thread{
 	  dataWriter.close();
 	  dataReader.close();
 	  socket.close();
-	  controller.removeServer(this);
+	  controller.removeServerThread(this.getId());
 
   }
   
