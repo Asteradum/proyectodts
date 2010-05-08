@@ -8,16 +8,18 @@ public class ServerController {
 	private static ServerController serverController= null;
 	private static int maxNumberConnections = -1;
 	private static int numberClients = 0;
-	private List<Server> userList = new ArrayList<Server>();
+	private static List<Server> userList = new ArrayList<Server>();
 	private static DaemonServer daemonServer = null;
-	private ServerGUI form = null;
+	private static ServerGUI form = null;
 
 	
 	public int getNumberClients() {
-		return userList.size();
+		form.Change();
+		return numberClients;
+		
 	}
 
-	public List<Server> getUserList() {
+	public static List<Server> getUserList() {
 		return userList;
 	}
 
@@ -44,8 +46,10 @@ public class ServerController {
 	public static void main(String[] args) {
 		serverController = new ServerController();
 		daemonServer = new DaemonServer(serverController);
+
 		daemonServer.start(args[0]);
-		new ServerController();
+		
+		
 
 	}
 

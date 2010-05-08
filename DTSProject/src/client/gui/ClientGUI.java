@@ -478,8 +478,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                         try {
 							controller.login(user, pass);
 							
-	                        
-                        } catch (ServerException e1) {
+							
+			         } catch (ServerException e1) {
 							statusBar.setText(e1.getMessage());
 			            }
 			         List<String> list = null;
@@ -487,15 +487,15 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                 			list = controller.getListSensors();
                 			logged = true;
                 			for (int i=0; i<list.size(); i++){
-                				System.out.println(list.get(i));
-                				StringTokenizer sTok= new StringTokenizer(list.get(i),": ");
+                				StringTokenizer sTok= new StringTokenizer(list.get(i),":");
                 				String item=sTok.nextToken();
-                				System.out.println(item);
                 				sensorList.addItem(item);}
                 		} catch (ServerException e1) {
-                			System.out.println();
-                			statusBar.setText(e1.getMessage());}  
+                			statusBar.setText(e1.getMessage());} 
+                		
+                		gpsField.setText("OFF");
 						}
+        
                 
                 
                 
@@ -552,10 +552,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                  
                  
                  else if (buttonPressed==currentValueButton){
-                 	List<String> list1 = null;
                  	try {
+                 		if (sensorStateField.getText().equals("ON"))
+                 		{	((DefaultTableModel) modeloTabla).setRowCount(0);
+                 		
                  		String line=controller.getCurrentValue(sensorList.getSelectedItem().toString());
-                     	StringTokenizer sTok= new StringTokenizer(line,"; ");
+                 		StringTokenizer sTok= new StringTokenizer(line,";");
            				String date=sTok.nextToken();
            				String hour=sTok.nextToken();
            				String coordenates=sTok.nextToken();
@@ -564,11 +566,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                         row[0] = date;
                         row[1] =hour;
                         row[2] = coordenates;
-                        row[3] = value;
+                        row[3] =value;
                         ((DefaultTableModel) modeloTabla).addRow( row );
-                        statusBar.setText("Historical log of the selected sensor: "+ sensorField.getText());
+                        statusBar.setText("Current value of the selected sensor: "+ sensorField.getText());}
                   } catch (ServerException e1) {
-              			System.out.println(e1.getMessage());
               			statusBar.setText(e1.getMessage());
                   		}
                   }
