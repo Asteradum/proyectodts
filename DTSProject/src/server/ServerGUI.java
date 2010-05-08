@@ -20,28 +20,30 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
 
    
 	  // Variables declaration - do not modify
-    private javax.swing.JButton ExitButton;
-    private javax.swing.JButton NumberButton;
-    private javax.swing.JTextField clientNumberField;
-    private javax.swing.JComboBox conectedUsers;
-    private javax.swing.JLabel controlLabel;
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JButton disconectButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable table;
-    private javax.swing.JTextField maxNumber;
-    private javax.swing.JButton modifyBotton;
-    private javax.swing.JTextField nameField;
-    private javax.swing.JButton newButton;
-    private javax.swing.JTextField nikField;
-    private javax.swing.JLabel numberConectLabel;
-    private javax.swing.JTextField passField;
-    private javax.swing.JLabel statusBar;
+	 private javax.swing.JButton ExitButton;
+	    private javax.swing.JButton NumberButton;
+	    private javax.swing.JTextField clientNumberField;
+	    private javax.swing.JComboBox conectedUsers;
+	    private javax.swing.JLabel controlLabel;
+	    private javax.swing.JButton deleteButton;
+	    private javax.swing.JButton disconectButton;
+	    private javax.swing.JLabel jLabel1;
+	    private javax.swing.JLabel jLabel2;
+	    private javax.swing.JLabel jLabel3;
+	    private javax.swing.JLabel jLabel4;
+	    private javax.swing.JLabel jLabel5;
+	    private javax.swing.JScrollPane jScrollPane1;
+	    private javax.swing.JScrollPane jScrollPane2;
+	    private javax.swing.JTable Table;
+	    private javax.swing.JTextArea jTextArea1;
+	    private javax.swing.JTextField maxNumber;
+	    private javax.swing.JButton modifyBotton;
+	    private javax.swing.JTextField nameField;
+	    private javax.swing.JButton newButton;
+	    private javax.swing.JTextField nikField;
+	    private javax.swing.JLabel numberConectLabel;
+	    private javax.swing.JTextField passField;
+	    private javax.swing.JLabel statusBar;
     TableModel model = null;
     ServerController controller=null;
     UserDAO dao= new UserDAO();
@@ -74,7 +76,7 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
-        controlLabel = new javax.swing.JLabel();
+    	controlLabel = new javax.swing.JLabel();
         clientNumberField = new javax.swing.JTextField();
         numberConectLabel = new javax.swing.JLabel();
         maxNumber = new javax.swing.JTextField();
@@ -82,7 +84,7 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
         jLabel1 = new javax.swing.JLabel();
         conectedUsers = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        Table = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         disconectButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
@@ -96,6 +98,10 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
         nameField = new javax.swing.JTextField();
         ExitButton = new javax.swing.JButton();
         statusBar = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+
+        
        
         
         ExitButton.addActionListener(this);
@@ -116,7 +122,7 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
         NumberButton.setText("Add");
        
 
-        jLabel1.setText("Connected Ussers");
+        jLabel1.setText("Connected Users");
 
         conectedUsers.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "", "", "" }));
        
@@ -128,18 +134,17 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
 			    	                {null, null, null}
 			    	            },
 				    	            new String [] {
-				    	                "Nik", "Name", "Password"
+				    	                "Nick", "Name", "Password"
 				    	            }
     	        ) 
         		);
         loadTable();
-        //loadConectedUsers();
-        	
-       	table.setModel(model);
+        conectedUsers.addItem(" ");
+        Table.setModel(model);
      
-        jScrollPane1.setViewportView(table);
+        jScrollPane1.setViewportView(Table);
 
-        jLabel2.setText("Total Ussers");
+        jLabel2.setText("Total Users");
 
         disconectButton.setText("Disconect?");
 
@@ -149,7 +154,7 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
 
         deleteButton.setText("Delete User");
 
-        jLabel3.setText("Nik");
+        jLabel3.setText("Nick");
 
         jLabel4.setText("Password");
 
@@ -160,6 +165,11 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
         ExitButton.setText("Exit");
 
         statusBar.setText("Server GUI");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("If you want to modify a user, select it first in the table\n");
+        jScrollPane2.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,12 +183,12 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
-                                .addComponent(conectedUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(47, 47, 47))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                                .addComponent(conectedUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addComponent(numberConectLabel)
                             .addComponent(controlLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -202,12 +212,9 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
                                     .addComponent(passField, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
                                 .addGap(70, 70, 70))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                                .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(newButton)
-                            .addComponent(modifyBotton)
-                            .addComponent(deleteButton))))
+                        .addGap(89, 89, 89)))
                 .addGap(101, 101, 101)
                 .addComponent(ExitButton)
                 .addGap(53, 53, 53))
@@ -218,8 +225,20 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addComponent(jLabel2))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(199, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(modifyBotton)
+                                .addComponent(newButton)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(deleteButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,10 +246,17 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
                 .addContainerGap(39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(134, 134, 134)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(71, 71, 71)
+                                .addComponent(deleteButton)))
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(ExitButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -263,12 +289,10 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
                                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(58, 58, 58)
+                                .addGap(46, 46, 46)
                                 .addComponent(newButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(modifyBotton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(deleteButton)))
+                                .addGap(18, 18, 18)
+                                .addComponent(modifyBotton)))
                         .addGap(19, 19, 19)))
                 .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -280,9 +304,7 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
 
    
 
-    private void loadConectedUsers() {
-		controller.getUserList();
-	}
+   
 
 
 
@@ -324,16 +346,21 @@ public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton)
         {
                 JButton buttonPressed=(JButton)e.getSource();
+                
+                
                 if (buttonPressed==NumberButton)
                 {
                 	String number=maxNumber.getText();
                 	controller.setMaxNumberConnections(Integer.parseInt(number));
+                	statusBar.setText("Max number fixed");
                 }
+                
+                
                 if (buttonPressed==modifyBotton)
-                {   int row=table.getSelectedRow();
+                {   int row=Table.getSelectedRow();
                 System.out.println(row);
             	
-                   String SelectedName=(String)model.getValueAt(row, 1);
+                   String SelectedName=(String)model.getValueAt(row, 0);
                    System.out.println(SelectedName);
                	
                 	String name=nameField.getText();
@@ -357,10 +384,12 @@ public void actionPerformed(ActionEvent e) {
 					}
                 	loadTable();
                 }
+                
+                
                 if (buttonPressed==deleteButton)
                 {
-                	 int row=table.getSelectedRow();
-                     String SelectedName=(String)model.getValueAt(row, 1);
+                	 int row=Table.getSelectedRow();
+                     String SelectedName=(String)model.getValueAt(row, 0);
                      System.out.println(SelectedName);
                      try {
 							dao.connect();
@@ -372,6 +401,17 @@ public void actionPerformed(ActionEvent e) {
  					}
                      loadTable();
 				}
+                if (buttonPressed==ExitButton)
+                { System.exit(0);}
+                
+                if (buttonPressed==disconectButton)
+                {
+                	int numUser= conectedUsers.getSelectedIndex();
+                	List<Server> userList =null;
+            		userList=controller.getUserList();
+            		controller.removeServerThread(userList.get(numUser).getId());
+            	}
+                
                 
                 if (buttonPressed==newButton)
                 {
@@ -400,6 +440,28 @@ public void actionPerformed(ActionEvent e) {
                 	}
 		
 	}
+
+
+
+	public void Change() {
+		conectedUsers.removeAll();
+		List<Server> userList =null;
+		userList=controller.getUserList();
+		String number=String.valueOf(userList.size());
+		clientNumberField.setText(number);
+		
+		for (int i=0; i<userList.size(); i++){
+	   				String item=userList.get(i).getUserID();
+	   				conectedUsers.addItem(item);
+	   				}
+		
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	
 
   
 

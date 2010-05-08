@@ -47,6 +47,7 @@ public class ClientController {
 			dataWriter.writeBytes("PASS " + pass + "\r\n");		 
 		    r = dataReader.readLine(); 
 		    
+		    
 			throw new ServerException(r);
 	 }catch(IOException ioe){
 	   System.err.println(ioe);
@@ -157,7 +158,8 @@ public class ClientController {
 				sTok= new StringTokenizer(r," ");
 				sTok.nextToken();sTok.nextToken();
 				r = sTok.nextToken();
-				r = r + " " + sTok.nextToken();
+				r = r + ";" + sTok.nextToken();
+				
 				return r;
 			}
 			else throw new ServerException(r);
