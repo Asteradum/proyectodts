@@ -35,13 +35,13 @@ public class Server extends Thread{
   
   private VehicleDAO vehicleDAO = new VehicleDAO();
   
+  private ServerController controller=null;
   private UserDAO userDAO = new UserDAO();
   private String sensorID = null;
   private Sensor sen = null;
   private String vehicleID = null;
   private String userID = null;
   private String pass = null;
-  private ServerController controller = null;
   
 
 

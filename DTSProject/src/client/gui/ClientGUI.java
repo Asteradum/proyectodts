@@ -590,7 +590,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
              			imageComponentLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\SoNia\\workspace\\DTSProject\\recievedData\\Photo.jpg")); // NOI18N
              	        
              		} catch (ServerException e1) {
-             			System.out.println(e1.getMessage());
              			//statusBar.setText(e1.getMessage());
              		}
                  }
