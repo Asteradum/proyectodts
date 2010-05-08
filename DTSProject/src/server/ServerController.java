@@ -14,7 +14,7 @@ public class ServerController {
 
 	
 	public int getNumberClients() {
-		return numberClients;
+		return userList.size();
 	}
 
 	public List<Server> getUserList() {
@@ -28,10 +28,15 @@ public class ServerController {
 	public int getMaxNumberConnections() {
 		return maxNumberConnections;
 	}
-
-	public void removeServer(Server server){
-		userList.remove(server);
-		
+	public void removeServerThread(long threadID){
+		boolean finded = false;
+		int i=0;
+		while ((!finded)/* || (i<userList.size())*/) 
+			if (userList.get(i).getId() == threadID)
+				finded = true;
+			else i++;
+		userList.remove(i);
+		numberClients = userList.size();		
 	}
 	public ServerController()  {
 		form = new ServerGUI(this);
