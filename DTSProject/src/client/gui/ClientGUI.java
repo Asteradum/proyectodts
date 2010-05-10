@@ -586,11 +586,11 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                  { try {
                 		state=1;
                 		controller.getPicture();
-             			statusBar.setText("Here you have the picture");
-             			imageComponentLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\SoNia\\workspace\\DTSProject\\recievedData\\Photo.jpg")); // NOI18N
-             	        
+             			
              		} catch (ServerException e1) {
-             			//statusBar.setText(e1.getMessage());
+             			imageComponentLabel.setIcon(new javax.swing.ImageIcon("recievedData\\Photo.jpg")); // NOI18N
+             			statusBar.setText("Here you have the picture");
+             			
              		}
                  }
                  
