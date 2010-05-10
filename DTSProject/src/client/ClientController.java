@@ -201,11 +201,17 @@ public class ClientController {
 			System.out.println(r);
 			if (r.startsWith("207")){
 				int lenght = Integer.parseInt(dataReader.readLine());
-				byte[] buffer = new byte[lenght];
-		    	socket.getInputStream().read(buffer, 0, lenght);
-		    	//System.out.println(lenght + " bytes recieved");
+				byte[] buffer = new byte[lenght];		   
+		    	int bytesRead =0;		    	
+		    	/*while (bytesRead<lenght){
+		    		bytesRead += socket.getInputStream().read(buffer, bytesRead, ((lenght-bytesRead)>=5000)?5000:lenght-bytesRead+1);
+		    	}*/
+		    	socket.getInputStream().read(buffer,0, lenght);
 				fos.write(buffer);
 				r = dataReader.readLine();
+				while (!r.endsWith("bytes transmitted."))
+					r = dataReader.readLine();
+				r = lenght + " bytes transmitted.";
 				fos.close();
 				throw new ServerException(r);
 			}
