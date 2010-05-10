@@ -203,6 +203,7 @@ public class ClientController {
 				int lenght = Integer.parseInt(dataReader.readLine());
 				byte[] buffer = new byte[lenght];
 		    	socket.getInputStream().read(buffer, 0, lenght);
+		    	//System.out.println(lenght + " bytes recieved");
 				fos.write(buffer);
 				r = dataReader.readLine();
 				fos.close();
