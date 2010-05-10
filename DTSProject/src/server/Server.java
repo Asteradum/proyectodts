@@ -512,13 +512,12 @@ public class Server extends Thread{
                     FileInputStream fis = new FileInputStream(fich);
                     long fileSize = fich.length();
                     byte[] buffer = new byte[(int)fileSize];		
-                    dataWriter.writeBytes("207 OK Transmitting " + buffer.length + " bytes....\r\n");                    		
+                    dataWriter.writeBytes("207 OK Transmitting " + fileSize + " bytes....\r\n");                    		
                     dataWriter.writeBytes(fileSize+"\r\n");		
                     fis.read(buffer);									
                     this.socket.getOutputStream().write(buffer);
                     dataWriter.writeBytes(fileSize + " bytes transmitted.\r\n");
-                    fis.close();                   
-           	      
+                    fis.close();                 	      
            	    }
            	    catch (FileNotFoundException e) {
            	      System.out.println("File Could not be opened");
@@ -551,7 +550,7 @@ public class Server extends Thread{
     dataWriter.writeBytes("208 OK Bye\r\n");
     closeServer();
     }catch(IOException ioe){
-      System.err.println(ioe);
+      ioe.printStackTrace();
     }catch(NoSuchElementException nsee){
       System.err.println(nsee);
     }
