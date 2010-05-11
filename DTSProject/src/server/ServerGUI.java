@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -103,7 +104,8 @@ public class ServerGUI extends javax.swing.JFrame implements ActionListener {
         jTextArea1 = new javax.swing.JTextArea();
 
         
-       
+        this.setContentPane(new ServerContainer());
+        
         
         ExitButton.addActionListener(this);
         NumberButton.addActionListener(this);
@@ -351,11 +353,12 @@ public void actionPerformed(ActionEvent e) {
                 {
                 	String number=maxNumber.getText();
                 	controller.setMaxNumberConnections(Integer.parseInt(number));
-                	statusBar.setText("Max number fixed");
+                	System.out.println(Integer.parseInt(number));
+                	statusBar.setText("Max number fixed");;
                 }
                 
                 
-                if (buttonPressed==modifyBotton)
+                else    if (buttonPressed==modifyBotton)
                 {   int row=Table.getSelectedRow();
                 System.out.println(row);
             	
@@ -385,7 +388,7 @@ public void actionPerformed(ActionEvent e) {
                 }
                 
                 
-                if (buttonPressed==deleteButton)
+                else  if (buttonPressed==deleteButton)
                 {
                 	 int row=Table.getSelectedRow();
                      String SelectedName=(String)model.getValueAt(row, 0);
@@ -400,10 +403,10 @@ public void actionPerformed(ActionEvent e) {
  					}
                      loadTable();
 				}
-                if (buttonPressed==ExitButton)
+                else if (buttonPressed==ExitButton)
                 { System.exit(0);}
                 
-                if (buttonPressed==disconectButton)
+                else   if (buttonPressed==disconectButton)
                 {
                 	int numUser= conectedUsers.getSelectedIndex();
                 	List<Server> userList =null;
@@ -412,7 +415,7 @@ public void actionPerformed(ActionEvent e) {
             	}
                 
                 
-                if (buttonPressed==newButton)
+                else      if (buttonPressed==newButton)
                 {
                 	String name=nameField.getText();
                 	System.out.println(name);
@@ -432,7 +435,7 @@ public void actionPerformed(ActionEvent e) {
 					}
 					loadTable();
                  }
-                if (buttonPressed==disconectButton)
+                else   if (buttonPressed==disconectButton)
                 {	int num=conectedUsers.getSelectedIndex();
                 	String line=conectedUsers.getSelectedItem().toString();
                 	conectedUsers.remove(num);
@@ -452,19 +455,26 @@ public void actionPerformed(ActionEvent e) {
 
 
 
-	public void Change( List<String >list) {
+	public void Change( List<Long >list) {
 		conectedUsers.removeAllItems();
 		List<Server> userList =null;
 		userList=controller.getUserList();
 		String number=String.valueOf(userList.size());
 		clientNumberField.setText(number);
 		for (int i=0; i<list.size(); i++){
-	   				String item=list.get(i);
+	   				Long item=list.get(i);
 	   				conectedUsers.addItem(item);
 	   				}
 		
 		
 	}
+
+
+ public JLabel getStatusBar ()
+ {
+	 return  statusBar;
+ }
+
 
 
 
