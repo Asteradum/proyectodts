@@ -221,6 +221,24 @@ public class ClientController {
 		}
 		
 	}
+	
+	public String getGPSState() throws ServerException{
+		StringTokenizer sTok= null;
+		String r = null;
+		try {
+			dataWriter.writeBytes("GPSSTATE\r\n");
+			r = dataReader.readLine();
+			if (r.startsWith("114")){
+				r = dataReader.readLine();
+				return r;
+			}
+			else throw new ServerException(r);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
 
 
 	public void quit(){
