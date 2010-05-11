@@ -547,12 +547,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                      	}
              			statusBar.setText("Historical log of the selected sensor: "+ sensorField.getText());
                  } catch (ServerException e1) {
-                	  if (e1==null)
-         				statusBar.setText("Connection closed by the supervisor")
-         			else {System.out.println(e1.getMessage());
-             			statusBar.setText(e1.getMessage());}
-                 		}
-                 }
+                	 statusBar.setText("Connection closed by the supervisor");
+         		
+                 }}
                  
                  
                  else if (buttonPressed==currentValueButton){
@@ -662,7 +659,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
 		   		 	
         }
                         
-                        
+              
     }
+    public void delete()
+    {
+ 	   controller.quit();
+    System.exit(0);
+ 	}
                 
 }

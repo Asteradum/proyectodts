@@ -70,6 +70,8 @@ public class ClientController {
 				}
 				return sensors;
 			}
+			else if (r.startsWith("000"))
+				form.delete();
 			else throw new ServerException(r);
 			
 		} catch (IOException e) {
@@ -96,6 +98,9 @@ public class ClientController {
 				
 				return logs;
 			}
+			
+			else if (r.startsWith("000"))
+				form.delete();
 			else throw new ServerException(r);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -163,6 +168,8 @@ public class ClientController {
 				
 				return r;
 			}
+			else if (r.startsWith("000"))
+				form.delete();
 			else throw new ServerException(r);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -183,6 +190,8 @@ public class ClientController {
 				r = sTok.nextToken(); 
 				return r;
 			}
+			else if (r.startsWith("000"))
+				form.delete();
 			else throw new ServerException(r);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -216,6 +225,8 @@ public class ClientController {
 				fos.close();
 				throw new ServerException(r);
 			}
+			else if (r.startsWith("000"))
+				form.delete();
 			else throw new ServerException(r);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -233,6 +244,8 @@ public class ClientController {
 				r = dataReader.readLine();
 				return r;
 			}
+			else if (r.startsWith("000"))
+				form.delete();
 			else throw new ServerException(r);
 		} catch (IOException e) {
 			e.printStackTrace();
