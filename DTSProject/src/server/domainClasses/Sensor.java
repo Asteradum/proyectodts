@@ -80,7 +80,7 @@ public class Sensor {
 	}
 	
 	public String GetCurrentValue(){
-		String data =  new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()) + ";" + "4°41'24.14-74°02'46.86;5";
+		String data =  new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()) + ";" + "4°41'24.14-74°02'46.86;5;";
 		return data;
 	}
 }

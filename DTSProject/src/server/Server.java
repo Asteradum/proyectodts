@@ -42,6 +42,8 @@ public class Server extends Thread{
   private String vehicleID = null;
   private String userID = null;
   private String pass = null;
+  int state = 0;
+  
   
 
 
@@ -79,7 +81,6 @@ public class Server extends Thread{
       String command;
       
       
-      int state = 0;
       
       for (;state<4;){
         line = dataReader.readLine();
@@ -584,8 +585,10 @@ public class Server extends Thread{
 	
   }
   public void closeClient() throws IOException
-  {	  dataWriter.close();
-     dataReader.close();
+  {	  
+	  dataWriter.writeBytes("000");
+	//  dataWriter.close();
+    // dataReader.close();
 	   
   }
   public String getUserID() {

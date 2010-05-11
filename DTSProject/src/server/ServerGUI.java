@@ -370,13 +370,12 @@ public void actionPerformed(ActionEvent e) {
                 	String pass=passField.getText();
                 	try {
 								dao.connect();
-							if (name!="")
+							if (nameField.getText().length() != 0 )
 		                		dao.changeUserName(SelectedName,name);
-		                	if (nik!="")
+		                	if (nikField.getText().trim().length() != 0 )
 		                		{System.out.println("ha entrado");
-		                	
 		                		dao.changeUserNick(SelectedName,nik);}
-		                	if (pass!="")
+		                	if (passField.getText().trim().length() != 0)
 		                		dao.changeUserPassWord(SelectedName, pass);
 		                	statusBar.setText("Correctly change");
 		               dao.disconnect(); 

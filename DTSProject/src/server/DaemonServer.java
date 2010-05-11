@@ -35,27 +35,32 @@ public class DaemonServer {
 	      for(;;){
 	    	  if ((controller.getMaxNumberConnections() < 0) || (controller.getNumberClients() < controller.getMaxNumberConnections())){
 	    		  try{
-				        Server server = new Server(VehicleName, serverSocket.accept(), controller);
+				      System.out.println(controller.getNumberClients());  
+	    			  Server server = new Server(VehicleName, serverSocket.accept(), controller);
 				        controller.getUserList().add(server);
 				        server.start();
+				        for(int i = 0; i<controller.getUserList().size();i++)
+    					{System.out.println("lalalal"+controller.getUserList().size());
+	    					controller.alertN(controller.getUserList().get(i).getId());}
 				        System.out.println("Executing server process");
-				  } catch (SocketTimeoutException  e) {
+				        	} catch (SocketTimeoutException  e) {
 	    				System.out.println("Still waiting...");
 	    				System.out.println(controller.getNumberClients());
 	    				Thread t= null;
+	    				
+    					  
+    		  }
 	    			/*	for(int i = 0; i<controller.getUserList().size();i++){
 	    					t = controller.getUserList().get(i);
 	    					if (!t.isAlive())
 	    						controller.removeServerThread(t.getId());
 	    				}*/		
-	    				for(int i = 0; i<controller.getUserList().size();i++){
-	    					System.out.println(controller.getUserList().get(i).getId() + "   " + controller.getUserList().get(i).getUserID() + "   " + controller.getUserList().get(i).getPass() );
-	    					 if (controller.getUserList().get(i).getUserID()!=null)
-	    					 controller.alert(controller.getUserList().get(i).getUserID(),controller.getUserList().get(i).getId());
-	    				}
+	    				for(int i = 0; i<controller.getUserList().size();i++)
+	    					{System.out.println(controller.getUserList().get(i).getId() + "   " + controller.getUserList().get(i).getUserID() + "   " + controller.getUserList().get(i).getPass() );
 	    					  
 	    		  }
 	    		 }
+	    	//  else controller.notifyServerGUI();
 	      }
 	    }catch(IOException ioe){
 	      System.err.println(ioe);
