@@ -41,7 +41,9 @@ public class Vehicle {
 		this.GPSState = state;
 	}
 
-
+	public String getState() {
+		return this.GPSState;
+	}
 	
 	public List<Sensor> getSensors() {
 		return sensors;

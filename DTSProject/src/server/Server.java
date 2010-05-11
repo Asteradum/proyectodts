@@ -275,7 +275,13 @@ public class Server extends Thread{
             	}
          	   	else dataWriter.writeBytes("420 ERR GPS already deactivated\r\n");
             	
-            }//--------------------------GET_CURVALUE [SENSOR]-----------------------------
+            }//--------------------------GPSSTATE-----------------------------
+            else if(command.equals("GPSSTATE")){
+              	
+           	 dataWriter.writeBytes("114 OK GPS state is:\r\n");
+           	 dataWriter.writeBytes(vehicleData.getState()+ "\r\n");  
+             	
+             }//--------------------------GET_CURVALUE [SENSOR]-----------------------------
             else if(command.equals("GET_CURVALUE")){
             	try{
 		              pass = sTok.nextToken();
@@ -476,7 +482,14 @@ public class Server extends Thread{
           	   	else dataWriter.writeBytes("420 ERR GPS already deactivated\r\n");
              	state = 2;
              	
-             }//--------------------------GET_CURVALUE [SENSOR]-----------------------------
+             }//--------------------------GPSSTATE-----------------------------
+             else if(command.equals("GPSSTATE")){
+              	
+            	 dataWriter.writeBytes("114 OK GPS state is:\r\n");
+            	 dataWriter.writeBytes(vehicleData.getState()+ "\r\n");  
+            	 state = 2;
+              	
+              }//--------------------------GET_CURVALUE [SENSOR]-----------------------------
              else if(command.equals("GET_CURVALUE")){
              	try{
  		              pass = sTok.nextToken();
