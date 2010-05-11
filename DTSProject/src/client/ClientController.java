@@ -18,6 +18,7 @@ public class ClientController {
 	private DataOutputStream dataWriter = null;
 	private BufferedReader dataReader = null;
 	private ClientGUI form = null;
+	private Thread id;
 
 
 	public ClientController()  {
@@ -256,5 +257,6 @@ public class ClientController {
 	public static void main(String[] args){
 		new ClientController();
 	}
+	
 	
 }

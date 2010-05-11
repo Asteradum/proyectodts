@@ -481,8 +481,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
 							
                         } catch (ServerException e1) {
 							statusBar.setText(e1.getMessage());
-			            }
-                        List<String> list = null;
+			            
+			         List<String> list = null;
                 		try {
                 			list = controller.getListSensors();
                 			logged = true;
@@ -490,13 +490,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                 				StringTokenizer sTok= new StringTokenizer(list.get(i),":");
                 				String item=sTok.nextToken();
                 				sensorList.addItem(item);
-                			}
-                			gpsField.setText(controller.getGPSState());
-                		} catch (ServerException e1) {
-                			statusBar.setText(e1.getMessage());} 
+                				}
+                		gpsField.setText(controller.getGPSState());
+                				
+                		} catch (ServerException e2) {
+                			statusBar.setText(e2.getMessage());} 
                 		
-                		
-					}
+                		}}
         
                 
                 
@@ -547,8 +547,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                      	}
              			statusBar.setText("Historical log of the selected sensor: "+ sensorField.getText());
                  } catch (ServerException e1) {
-             			System.out.println(e1.getMessage());
-             			statusBar.setText(e1.getMessage());
+                	  if (e1==null)
+         				statusBar.setText("Connection closed by the supervisor")
+         			else {System.out.println(e1.getMessage());
+             			statusBar.setText(e1.getMessage());}
                  		}
                  }
                  
@@ -571,6 +573,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                         row[3] =value;
                         ((DefaultTableModel) modeloTabla).addRow( row );
                         statusBar.setText("Current value of the selected sensor: "+ sensorField.getText());}
+                 		else statusBar.setText("The sensor must be activated");
                   } catch (ServerException e1) {
               			statusBar.setText(e1.getMessage());
                   		}
@@ -587,11 +590,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                  else if (buttonPressed==imageButton)
                  { try {
                 		state=1;
-                		controller.getPicture();
-             			
+                		if (controller.getGPSState().equals("ON"))
+                			controller.getPicture();
+                		else statusBar.setText("GPS must be activated");
              		} catch (ServerException e1) {
              			imageComponentLabel.setIcon(new javax.swing.ImageIcon("recievedData\\Photo.jpg")); // NOI18N
-             			statusBar.setText("Here you have the picture");
+             			statusBar.setText(e1.getMessage());
              			
              		}
                  }

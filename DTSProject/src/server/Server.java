@@ -153,7 +153,7 @@ public class Server extends Thread{
             	List<String> list = vehicleData.convertToListSensor();
           	  	for(int i=0;i<list.size();i++)
           	  		dataWriter.writeBytes(list.get(i) + "\r\n");
-          	  
+
               
               dataWriter.writeBytes("212 OK End of sensor list\r\n");
               
@@ -583,7 +583,11 @@ public class Server extends Thread{
 	    this.socket.getOutputStream().write(buffer);
 	
   }
-  
+  public void closeClient() throws IOException
+  {	  dataWriter.close();
+     dataReader.close();
+	   
+  }
   public String getUserID() {
 		return userID;
   }
