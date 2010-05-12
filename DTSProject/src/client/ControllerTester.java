@@ -110,7 +110,7 @@ public class ControllerTester {
 		try {
 			System.out.println(client.getLocation());
 		} catch (ServerException e) {
-			System.out.println(e.getMessage());
+		System.out.println(e.getMessage());
 		}
 
 		client.quit();
