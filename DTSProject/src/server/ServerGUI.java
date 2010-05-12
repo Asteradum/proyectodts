@@ -403,7 +403,8 @@ public void actionPerformed(ActionEvent e) {
                      loadTable();
 				}
                 else if (buttonPressed==ExitButton)
-                { System.exit(0);}
+                { 	
+                	System.exit(0);}
                 
                 else   if (buttonPressed==disconectButton)
                 {

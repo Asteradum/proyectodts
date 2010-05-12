@@ -504,31 +504,35 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                 
                 
                  else if (buttonPressed==stateChangeBottonOFF){
-                	 sensorStateField.setText("OFF");
-						
-                	 try {
-                		controller.setSensorOFF(sensorList.getSelectedItem().toString());
-                		} catch (ServerException e2) {
-                			statusBar.setText(e2.getMessage());
-                			if (e2.getMessage().startsWith("000"))
-	                			this.delete();
-            			}
-                     }
+                	 if (logged){
+                		 sensorStateField.setText("OFF");
+	                	 try {
+	                		controller.setSensorOFF(sensorList.getSelectedItem().toString());
+	                		} catch (ServerException e2) {
+	                			statusBar.setText(e2.getMessage());
+	                			if (e2.getMessage().startsWith("000"))
+		                			this.delete();
+	            			}
+                	 }
+                	 else statusBar.setText("You must be logged");	
+                 }
                 
                 
                 
                  else if (buttonPressed==stateChangeON){
-                	sensorStateField.setText("ON");
-						
-                	 try {
-                		controller.setSensorON(sensorList.getSelectedItem().toString());
-	                	} catch (ServerException e2) {
-	                		statusBar.setText(e2.getMessage());
-	                		if (e2.getMessage().startsWith("000"))
-	                			this.delete();
-	                			
-	                    }
-                     }
+                	 if (logged){
+	                	sensorStateField.setText("ON");	
+	                	 try {
+	                		controller.setSensorON(sensorList.getSelectedItem().toString());
+		                	} catch (ServerException e2) {
+		                		statusBar.setText(e2.getMessage());
+		                		if (e2.getMessage().startsWith("000"))
+		                			this.delete();
+		                			
+		                    }
+                	 }
+                	 else statusBar.setText("You must be logged");
+                 }
                 
                 
                 
@@ -617,27 +621,33 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                 
                 
                  else if (buttonPressed==GPSOFFButton){
-                	 gpsField.setText("OFF");
-			    	 try {
-	                    		controller.setGPSOFF();
-	    	        }catch (ServerException e2) {
-	                	 statusBar.setText(e2.getMessage());
-	                	 if (e2.getMessage().startsWith("000"))
-	                			this.delete();
-	    	        }
+                	 if (logged){
+	                	 gpsField.setText("OFF");
+				    	 try {
+		                    		controller.setGPSOFF();
+		    	        }catch (ServerException e2) {
+		                	 statusBar.setText(e2.getMessage());
+		                	 if (e2.getMessage().startsWith("000"))
+		                			this.delete();
+		    	        }
+                	 }
+                	 else statusBar.setText("You must be logged");
                 } 
                 
                 
                  else if (buttonPressed==GPSONButton){
-                	 gpsField.setText("ON");
-	                try {
-	                	controller.setGPSON();
-	 	            } catch (ServerException e2) {
-	 	            	statusBar.setText(e2.getMessage());
-	 	            	if (e2.getMessage().startsWith("000"))
-		                	this.delete();		
-
-	 	            }
+                	 if (logged){
+	                	 gpsField.setText("ON");
+		                try {
+		                	controller.setGPSON();
+		 	            } catch (ServerException e2) {
+		 	            	statusBar.setText(e2.getMessage());
+		 	            	if (e2.getMessage().startsWith("000"))
+			                	this.delete();		
+	
+		 	            }
+                	 }
+                	 else statusBar.setText("You must be logged");
                 } 
                 	 
         }
