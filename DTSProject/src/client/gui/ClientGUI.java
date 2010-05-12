@@ -52,7 +52,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
     private javax.swing.JLabel loginLabel;
     private javax.swing.JPasswordField passField;
     private javax.swing.JLabel passLabel;
-    private javax.swing.JProgressBar progressBar;
     private javax.swing.JButton quitButton;
     private javax.swing.JTextField sensorField;
     private javax.swing.JComboBox sensorList;
@@ -105,7 +104,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
          IPfield = new javax.swing.JTextField();
          statusBar = new javax.swing.JLabel();
          jSeparator1 = new javax.swing.JSeparator();
-         progressBar = new javax.swing.JProgressBar();
          sensorListLabel = new javax.swing.JLabel();
          loginLabel = new javax.swing.JLabel();
          logButton = new javax.swing.JButton();
@@ -302,7 +300,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         
                             .addComponent(imageButton))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -420,7 +418,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                         .addGap(18, 18, 18)
                         .addComponent(currentValueButton)))
                 .addGap(33, 33, 33)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                
                 .addGap(18, 18, 18)
                 .addComponent(imageButton)
                 .addGap(29, 29, 29)
@@ -596,7 +594,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                  else if (buttonPressed==imageButton)
                  { try {
                 		state=1;
-                		if (controller.getGPSState().equals("ON"))
+                		if (this.gpsField.getText().equals("ON"))
                 			controller.getPicture();
                 		else statusBar.setText("GPS must be activated");
              		} catch (ServerException e1) {
