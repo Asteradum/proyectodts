@@ -481,22 +481,24 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
 							
                         } catch (ServerException e1) {
 							statusBar.setText(e1.getMessage());
-			            
-			         List<String> list = null;
-                		try {
-                			list = controller.getListSensors();
-                			logged = true;
-                			for (int i=0; i<list.size(); i++){
-                				StringTokenizer sTok= new StringTokenizer(list.get(i),":");
-                				String item=sTok.nextToken();
-                				sensorList.addItem(item);
-                				}
-                		gpsField.setText(controller.getGPSState());
-                				
-                		} catch (ServerException e2) {
-                			statusBar.setText(e2.getMessage());} 
-                		
-                		}}
+							if (e1.getMessage().startsWith("202")){
+								try {
+									List<String> list = null;
+		                			list = controller.getListSensors();
+		                			logged = true;
+		                			for (int i=0; i<list.size(); i++){
+		                				StringTokenizer sTok= new StringTokenizer(list.get(i),":");
+		                				String item=sTok.nextToken();
+		                				sensorList.addItem(item);
+		                			}
+		                		gpsField.setText(controller.getGPSState());
+		                				
+		                		} catch (ServerException e2) {
+		                			statusBar.setText(e2.getMessage());
+		                		}
+							}
+                		}
+                }
         
                 
                 

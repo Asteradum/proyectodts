@@ -52,6 +52,7 @@ public class ClientController {
 			throw new ServerException(r);
 	 }catch(IOException ioe){
 	   System.err.println(ioe);
+	   
 	 }
 	}
 	
@@ -213,9 +214,9 @@ public class ClientController {
 				int lenght = Integer.parseInt(dataReader.readLine());
 				byte[] buffer = new byte[lenght];		   
 		    	int bytesRead =0;		    	
-		    	/*while (bytesRead<lenght){
-		    		bytesRead += socket.getInputStream().read(buffer, bytesRead, ((lenght-bytesRead)>=5000)?5000:lenght-bytesRead+1);
-		    	}*/
+		    	/*while (bytesRead<lenght)
+		    		bytesRead += socket.getInputStream().read(buffer, bytesRead, ((lenght-bytesRead)>=5000)?5000:lenght-bytesRead);		    	
+		    	*/
 		    	socket.getInputStream().read(buffer,0, lenght);
 				fos.write(buffer);
 				r = dataReader.readLine();
@@ -226,9 +227,9 @@ public class ClientController {
 				throw new ServerException(r);
 			}
 			else if (r.startsWith("000"))
-				{form.delete();
-				this.quit();
-				}
+			{form.delete();
+			this.quit();
+			}
 			else throw new ServerException(r);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -260,7 +261,7 @@ public class ClientController {
 	public void quit(){
 		 try{
 		   dataWriter.writeBytes("QUIT\r\n");
-		   System.out.println(dataReader.readLine());
+		   dataReader.readLine();
 		   dataWriter.close();
 		   dataReader.close();
 		   socket.close();
@@ -271,6 +272,7 @@ public class ClientController {
 	
 	public static void main(String[] args){
 		new ClientController();
+
 	}
 	
 	
