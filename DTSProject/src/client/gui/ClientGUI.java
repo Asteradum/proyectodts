@@ -510,7 +510,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                 		controller.setSensorOFF(sensorList.getSelectedItem().toString());
                 		} catch (ServerException e2) {
                 			statusBar.setText(e2.getMessage());
-                				
+                			if (e2.getMessage().startsWith("000"))
+	                			this.delete();
             			}
                      }
                 
@@ -523,7 +524,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                 		controller.setSensorON(sensorList.getSelectedItem().toString());
 	                	} catch (ServerException e2) {
 	                		statusBar.setText(e2.getMessage());
-	                    	}
+	                		if (e2.getMessage().startsWith("000"))
+	                			this.delete();
+	                			
+	                    }
                      }
                 
                 
@@ -575,14 +579,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                  		else statusBar.setText("The sensor must be activated");
                   } catch (ServerException e1) {
               			statusBar.setText(e1.getMessage());
-                  		}
+                  }
                   }
                 
                 
                  else if (buttonPressed==quitButton){ 
 	             	if(logged){
 	             		controller.quit();
-	             		System.out.println("Estaba logeado");
 	             	}
 	                 System.exit(0);
 	             }
@@ -600,39 +603,44 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
                  }
                  
                  
-                 else if (buttonPressed==coordinatesButton)
-		                 {try {
-		                	 if (state==1)
-		                	 { coordinateField.setText(controller.getLocation());
-		                	 statusBar.setText("The vehicle is there");}
-		                	 else statusBar.setText("Get a picture first!");
-		               } catch (ServerException e2) {
-		             			System.out.println(e2.getMessage());
-		             			statusBar.setText(e2.getMessage());
-		             		}
-		                 }
+                 else if (buttonPressed==coordinatesButton){
+                	 try 
+		                 {
+		                	 coordinateField.setText(controller.getLocation());
+		                	 statusBar.setText("The vehicle is there");
+			             } catch (ServerException e2) {
+			             			System.out.println(e2.getMessage());
+			             			statusBar.setText(e2.getMessage());
+			             }
+		         }
                 
                 
                 
-                 else if (buttonPressed==GPSOFFButton)
-                	{gpsField.setText("OFF");
-		    	 try {
-                    		controller.setGPSOFF();
-    	        }catch (ServerException e2) {
-                	 statusBar.setText(e2.getMessage());}
-                         } 
+                 else if (buttonPressed==GPSOFFButton){
+                	 gpsField.setText("OFF");
+			    	 try {
+	                    		controller.setGPSOFF();
+	    	        }catch (ServerException e2) {
+	                	 statusBar.setText(e2.getMessage());
+	                	 if (e2.getMessage().startsWith("000"))
+	                			this.delete();
+	    	        }
+                } 
                 
                 
-                 else if (buttonPressed==GPSONButton)
-             	{gpsField.setText("ON");
-                try {
-                	controller.setGPSON();
- 	            } catch (ServerException e2) {
- 	            	statusBar.setText(e2.getMessage());
- 	             	}
-                      } 
+                 else if (buttonPressed==GPSONButton){
+                	 gpsField.setText("ON");
+	                try {
+	                	controller.setGPSON();
+	 	            } catch (ServerException e2) {
+	 	            	statusBar.setText(e2.getMessage());
+	 	            	if (e2.getMessage().startsWith("000"))
+		                	this.delete();		
+
+	 	            }
+                } 
                 	 
-                 }
+        }
         
         
         
@@ -666,7 +674,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener  {
     public void delete()
     {
  	   controller.quit();
-    System.exit(0);
+ 	   System.exit(0);
  	}
                 
 }
