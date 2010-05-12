@@ -226,7 +226,9 @@ public class ClientController {
 				throw new ServerException(r);
 			}
 			else if (r.startsWith("000"))
-				form.delete();
+				{form.delete();
+				this.quit();
+				}
 			else throw new ServerException(r);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -258,7 +260,7 @@ public class ClientController {
 	public void quit(){
 		 try{
 		   dataWriter.writeBytes("QUIT\r\n");
-		   dataReader.readLine();
+		   System.out.println(dataReader.readLine());
 		   dataWriter.close();
 		   dataReader.close();
 		   socket.close();
